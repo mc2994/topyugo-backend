@@ -1,12 +1,19 @@
+os: linux
+  dist: xenial
+
 language: java
 jdk: oraclejdk9
 
 before_install:
   - chmod +x mvnw
 
-script: ./mvnw clean install
+script: - ./mvnw clean install -B
 
-jobs:
-  include:
-    - stage: Test
-      script: ./mvnw clean test
+# script: mvn package -DskipTests
+
+
+# jobs:
+#   include:
+#     - stage: Test
+#       script:
+#         - ./mvnw clean install -B
