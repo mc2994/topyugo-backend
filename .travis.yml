@@ -1,0 +1,9 @@
+language: java
+jdk: oraclejdk8
+
+script: ./mvnw clean install
+jobs:
+    include:
+        - stage: test
+          name: "Test Jobs"
+          script: - mvn test
