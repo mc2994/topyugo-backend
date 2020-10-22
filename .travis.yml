@@ -3,7 +3,7 @@ jdk: oraclejdk8
 
 script: ./mvnw clean install
 
-job:
+jobs:
   include:
     - stage: Test
       script: ./mvnw clean test
