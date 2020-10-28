@@ -29,6 +29,12 @@ jobs:
       - run: mvn integration-test   
 
 workflows:
+  version: 2
   maven_build_and_test:
+    jobs:
+      - maven_build_and_test:
+          filters:
+            branches:
+              only: main
     # jobs:
     #   - maven/test # checkout, build, test, and upload test results
