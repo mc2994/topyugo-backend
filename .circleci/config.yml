@@ -24,9 +24,16 @@ jobs:
       - save_cache:
           paths:
             - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
+          key: product-import-{{ checksum "pom.xml" }}
 
-      - run: mvn integration-test   
+      - run: mvn package
+
+      - persist_to_workspace:
+          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is taken to be the root directory of the workspace.
+          root: ~/product-import
+          # Must be relative path from root
+          paths:
+            - product-import.jar
 
 workflows:
   version: 2
