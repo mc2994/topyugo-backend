@@ -40,7 +40,7 @@ jobs:
           root: target
           # Must be relative path from root
           paths:
-            - product-import.jar
+            - classes
 
 workflows:
   version: 2
