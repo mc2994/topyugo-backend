@@ -28,9 +28,16 @@ jobs:
 
       - run: mvn clean compile
 
+         # Store tests to compare builds      
+      - store_test_results:
+          path: target/surefire-reports
+      # Store artifacts on CircleCI internal repository
+      - store_artifacts:
+          path: target/product-import.jar
+
       - persist_to_workspace:
           # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is taken to be the root directory of the workspace.
-          root: ~/product-import
+          root: ~/product-import/target
           # Must be relative path from root
           paths:
             - product-import.jar
