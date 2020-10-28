@@ -7,7 +7,6 @@ jobs:
   maven_build_and_test:
     docker:
       - image: maven
-      - image: circleci/openjdk:8-jdk
 
     working_directory: ~/product-import
 
