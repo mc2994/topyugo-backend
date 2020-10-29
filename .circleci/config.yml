@@ -10,8 +10,8 @@ executors:
 
 jobs:
   maven_build_and_test:
-    # docker:
-    #   - image: maven
+    docker:
+      - image: maven
 
     working_directory: ~/product-import
 
