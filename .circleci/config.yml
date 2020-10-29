@@ -60,8 +60,8 @@ jobs:
       #       eb init
       #       eb deploy ProductImport-env1
   elb_deployment:
-    executor:
-      name: node/default
+    docker:
+      - image: circleci/python:2.7
     steps:
       - attach_workspace:
           at: target
