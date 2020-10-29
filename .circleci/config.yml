@@ -31,6 +31,7 @@ jobs:
          # Store tests to compare builds      
       - store_test_results:
           path: target/classes
+          
       # Store artifacts on CircleCI internal repository
       - store_artifacts:
           path: target/classes
@@ -41,6 +42,23 @@ jobs:
           # Must be relative path from root
           paths:
             - classes
+
+      - run:
+          name: Install awscli
+          command: |
+            sudo pip install awsebcli --upgrade
+
+      - run:
+          name: Installing deployment dependencies
+          command: |
+            sudo apt-get -y -qq update
+            sudo apt-get install python-pip python-dev build-essential
+            sudo pip install --upgrade setuptools
+            sudo pip install awsebcli --upgrade
+
+      - run:
+          name: Deploying
+          command: eb deploy ProductImport-env1
 
 workflows:
   version: 2
