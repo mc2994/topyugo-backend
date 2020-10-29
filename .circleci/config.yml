@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   maven: circleci/maven@0.0.12
+  node: circleci/node@1.1
 
 executors:
   python-executor:
@@ -15,7 +16,8 @@ jobs:
 
     working_directory: ~/product-import
 
-    executor: python-executor
+    executor:
+      name: node/default
     steps:
       - checkout
 
@@ -49,9 +51,6 @@ jobs:
           paths:
             - classes
   
-  elb_deployment:
-    executor: python-executor
-    steps:
       - run:
           name: Install awscli
           command: sudo pip install awsebcli --upgrade
@@ -69,6 +68,27 @@ jobs:
           command: |
             eb init
             eb deploy ProductImport-env1
+  # elb_deployment:
+  #   executor:
+  #     name: node/default
+  #   steps:
+  #     - run:
+  #         name: Install awscli
+  #         command: sudo pip install awsebcli --upgrade
+
+  #     - run:
+  #         name: Installing deployment dependencies
+  #         command: |
+  #           sudo apt-get -y -qq update
+  #           sudo apt-get install python-pip python-dev build-essential
+  #           sudo pip install --upgrade setuptools
+  #           sudo pip install awsebcli --upgrade
+
+  #     - run:
+  #         name: Deploying
+  #         command: |
+  #           eb init
+  #           eb deploy ProductImport-env1
 
 workflows:
   version: 2
@@ -78,6 +98,6 @@ workflows:
           filters:
             branches:
               only: main
-      - elb_deployment
+      # - elb_deployment
     # jobs:
     #   - maven/test # checkout, build, test, and upload test results
