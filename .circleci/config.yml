@@ -63,7 +63,7 @@ jobs:
       name: node/default
     steps:
       - attach_workspace:
-        at: target
+          at: target
       - run:
           name: Install awscli
           command: sudo pip install awsebcli --upgrade
