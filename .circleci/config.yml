@@ -90,6 +90,6 @@ workflows:
           filters:
             branches:
               only: main
-      # - elb_deployment
+      - elb_deployment
     # jobs:
     #   - maven/test # checkout, build, test, and upload test results
