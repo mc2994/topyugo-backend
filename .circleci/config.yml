@@ -66,6 +66,7 @@ jobs:
 
       - run:
           name: Deploying
+          command: eb init
           command: eb deploy ProductImport-env1
 
 workflows:
