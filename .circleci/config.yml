@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   maven: circleci/maven@0.0.12
+  node: circleci/node@1.1.6
 
 jobs:
   maven_build_and_test:
@@ -78,9 +79,7 @@ jobs:
 
       - run:
           name: Deploying
-          command: |
-            eb init
-            eb deploy ProductImport-env1
+          command: eb deploy ProductImport-env1
 
 workflows:
   version: 2
