@@ -48,7 +48,10 @@ jobs:
           # Must be relative path from root
           paths:
             - classes
-
+  
+  elb_deployment:
+    executor: python-executor
+    steps:
       - run:
           name: Install awscli
           command: sudo pip install awsebcli --upgrade
@@ -73,5 +76,6 @@ workflows:
           filters:
             branches:
               only: main
+      - elb_deployment
     # jobs:
     #   - maven/test # checkout, build, test, and upload test results
