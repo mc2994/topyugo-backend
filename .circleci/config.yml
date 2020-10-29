@@ -2,8 +2,12 @@ version: 2.1
 
 orbs:
   maven: circleci/maven@0.0.12
-  node: circleci/node@1.1.6
-  
+
+executors:
+  python-executor:
+    docker:
+      - image: circleci/python:3.7
+
 jobs:
   maven_build_and_test:
     docker:
@@ -11,6 +15,7 @@ jobs:
 
     working_directory: ~/product-import
 
+    executor: python-executor
     steps:
       - checkout
 
