@@ -2,12 +2,6 @@ version: 2.1
 
 orbs:
   maven: circleci/maven@0.0.12
-  node: circleci/node@1.1
-
-executors:
-  python-executor:
-    docker:
-      - image: circleci/python:3.7
 
 jobs:
   maven_build_and_test:
@@ -15,12 +9,8 @@ jobs:
       - image: maven
 
     working_directory: ~/product-import
-
-    executor:
-      name: node/default
     steps:
       - checkout
-
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "pom.xml" }}
@@ -51,6 +41,29 @@ jobs:
           paths:
             - classes
   
+      # - run:
+      #     name: Install awscli
+      #     command: sudo pip install awsebcli --upgrade
+
+      # - run:
+      #     name: Installing deployment dependencies
+      #     command: |
+      #       sudo apt-get -y -qq update
+      #       sudo apt-get install python-pip python-dev build-essential
+      #       sudo pip install --upgrade setuptools
+      #       sudo pip install awsebcli --upgrade
+
+      # - run:
+      #     name: Deploying
+      #     command: |
+      #       eb init
+      #       eb deploy ProductImport-env1
+  elb_deployment:
+    executor:
+      name: node/default
+    steps:
+      - attach_workspace:
+        at: target
       - run:
           name: Install awscli
           command: sudo pip install awsebcli --upgrade
@@ -68,27 +81,6 @@ jobs:
           command: |
             eb init
             eb deploy ProductImport-env1
-  # elb_deployment:
-  #   executor:
-  #     name: node/default
-  #   steps:
-  #     - run:
-  #         name: Install awscli
-  #         command: sudo pip install awsebcli --upgrade
-
-  #     - run:
-  #         name: Installing deployment dependencies
-  #         command: |
-  #           sudo apt-get -y -qq update
-  #           sudo apt-get install python-pip python-dev build-essential
-  #           sudo pip install --upgrade setuptools
-  #           sudo pip install awsebcli --upgrade
-
-  #     - run:
-  #         name: Deploying
-  #         command: |
-  #           eb init
-  #           eb deploy ProductImport-env1
 
 workflows:
   version: 2
