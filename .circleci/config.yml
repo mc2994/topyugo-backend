@@ -118,6 +118,7 @@ jobs:
   build-and-test:
     docker:
       - image: 'circleci/openjdk:11-jdk'
+      - image: circleci/python:3.5
     steps:
       - checkout
       - node/with-cache:
