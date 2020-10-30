@@ -50,10 +50,6 @@ jobs:
       - attach_workspace:
           at: target
       - run:
-          name: Install awscli
-          command: sudo pip install awsebcli --upgrade
-
-      - run:
           name: Installing deployment dependencies
           command: |
             sudo apt-get -y -qq update
