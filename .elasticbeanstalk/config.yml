@@ -1,9 +1,9 @@
 branch-defaults:
-    main:
-      environment: ProductImport-env
-  global:
-    application_name: product-import
-    default_ec2_keyname: XXXXXX
-    default_platform: Java 8 running on 64bit Amazon Linux
-    default_region: ap-southeast-1
-    sc: git
+  main:
+    environment: ProductImport-env
+global:
+  application_name: product-import
+  default_ec2_keyname: XXXXXX
+  default_platform: Java 8 running on 64bit Amazon Linux
+  default_region: ap-southeast-1
+  sc: git
