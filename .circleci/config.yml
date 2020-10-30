@@ -40,37 +40,29 @@ jobs:
           # Must be relative path from root
           paths:
             - classes
-  
+
+
+  elb_deployment:
+    docker:
+      - image: 'circleci/openjdk:11-jdk'
+      - image: circleci/python:3.6.4
+    steps:
+      - attach_workspace:
+          at: target
+      - run:
+          name: Install awscli
+          command: sudo pip install awsebcli --upgrade
+
       - run:
           name: Installing deployment dependencies
           command: |
             sudo apt-get -y -qq update
             sudo apt-get install python3-pip python3-dev build-essential
             sudo pip3 install awsebcli
-            eb deploy ProductImport-env
 
-
-  # elb_deployment:
-  #   docker:
-  #     - image: 'circleci/openjdk:11-jdk'
-  #     - image: circleci/python:3.6.4
-  #   steps:
-  #     - attach_workspace:
-  #         at: target
-  #     - run:
-  #         name: Install awscli
-  #         command: sudo pip install awsebcli --upgrade
-
-  #     - run:
-  #         name: Installing deployment dependencies
-  #         command: |
-  #           sudo apt-get -y -qq update
-  #           sudo apt-get install python3-pip python3-dev build-essential
-  #           sudo pip3 install awsebcli
-
-  #     - run:
-  #         name: Deploying
-  #         command: eb deploy ProductImport-env1
+      - run:
+          name: Deploying
+          command: eb deploy ProductImport-env1
 
   # build:
   #   docker:
@@ -95,7 +87,8 @@ workflows:
       #     requires:
       #       maven_build_and_test
 
-      # - elb_deployment:
+      - elb_deployment:
+          context: aws
       #     requires:
       #       build
     # jobs:
