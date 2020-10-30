@@ -18,13 +18,11 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-	</properties>
-	<properties>
-  		<sonar.projectKey>mc2994_topyugo-backend</sonar.projectKey>
+		<sonar.projectKey>mc2994_topyugo-backend</sonar.projectKey>
   		<sonar.organization>mc2994</sonar.organization>
   		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
