@@ -113,8 +113,6 @@
 version: 2.1
 orbs:
   maven: circleci/maven@0.0.12
-  node: circleci/node@1.1.6
-  python: circleci/python@1.2.1
 jobs:
   build-and-test:
     docker:
@@ -122,19 +120,17 @@ jobs:
       - image: circleci/python:3.6.4
     steps:
       - checkout
-      - node/with-cache:
-          steps:
-            - run: mvn clean compile
-            - run:
-                name: Installing deployment dependencies
-                command: |
-                  sudo apt-get -y -qq update
-                  sudo apt-get install python-pip python-dev build-essential
-                  sudo pip install --upgrade setuptools
-                  sudo pip install awsebcli --upgrade
-            - run:
-                name: Deploying
-                command: eb deploy ProductImport-env
+      - run: mvn clean compile
+      - run:
+          name: Installing deployment dependencies
+          command: |
+            sudo apt-get -y -qq update
+            sudo apt-get install python-pip python-dev build-essential
+            sudo pip install --upgrade setuptools
+            sudo pip install awsebcli --upgrade
+      - run:
+          name: Deploying
+          command: eb deploy ProductImport-env
 
 workflows:
   build-and-test:
