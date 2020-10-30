@@ -113,12 +113,11 @@
 version: 2.1
 orbs:
   maven: circleci/maven@0.0.12
-  node: circleci/node@1.1.6
+  python: circleci/python@1.2.1
 jobs:
   build-and-test:
     docker:
       - image: 'circleci/openjdk:11-jdk'
-      - image: circleci/python:3.5
     steps:
       - checkout
       - node/with-cache:
