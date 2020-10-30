@@ -47,29 +47,20 @@ jobs:
     docker:
       - image: 'circleci/openjdk:11-jdk'
       - image: circleci/python:3.6.4
+    working_directory: ~/product-import
     steps:
-      - checkout
-      - run: mvn clean compile
+      - attach_workspace:
+          at: target
       - run:
           name: Installing deployment dependencies
           command: |
             sudo apt-get -y -qq update
             sudo apt-get install python3-pip python3-dev build-essential
             sudo pip3 install awsebcli
-            eb deploy ProductImport-env
 
-      # - attach_workspace:
-      #     at: target
-      # - run:
-      #     name: Installing deployment dependencies
-      #     command: |
-      #       sudo apt-get -y -qq update
-      #       sudo apt-get install python3-pip python3-dev build-essential
-      #       sudo pip3 install awsebcli
-
-      # - run:
-      #     name: Deploying
-      #     command: eb deploy ProductImport-env1
+      - run:
+          name: Deploying
+          command: eb deploy ProductImport-env1
 
           
 
