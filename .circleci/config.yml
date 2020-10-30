@@ -74,14 +74,14 @@ jobs:
           name: Deploying
           command: eb deploy ProductImport-env1
 
-  build:
-    docker:
-      - image: 'circleci/openjdk:11-jdk'
-    steps:
-      - checkout
-      - run:
-          name: Analyze on SonarCloud
-          command: mvn verify sonar:sonar
+  # build:
+  #   docker:
+  #     - image: 'circleci/openjdk:11-jdk'
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Analyze on SonarCloud
+  #         command: mvn verify sonar:sonar
 
 workflows:
   version: 2
@@ -92,10 +92,10 @@ workflows:
           filters:
             branches:
               only: main
-      - build:
-          context: SonarCloud
-          requires:
-            maven_build_and_test
+      # - build:
+      #     context: SonarCloud
+      #     requires:
+      #       maven_build_and_test
 
       - elb_deployment:
           requires:
