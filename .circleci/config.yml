@@ -116,8 +116,8 @@ orbs:
   node: circleci/node@1.1.6
 jobs:
   build-and-test:
-    executor:
-      name: node/default
+    docker:
+      - image: 'circleci/openjdk:11-jdk'
     steps:
       - checkout
       - node/with-cache:
