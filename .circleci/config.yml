@@ -86,7 +86,7 @@ workflows:
       - elb_deployment:
           context: aws
           requires:
-            maven_build_and_test
+            - maven_build_and_test
     # jobs:
     #   - maven/test # checkout, build, test, and upload test results
 
