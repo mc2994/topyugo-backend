@@ -1,106 +1,143 @@
-version: 2.1
+# version: 2.1
 
+# orbs:
+#   maven: circleci/maven@0.0.12
+#   node: circleci/node@1.1.6
+
+# jobs:
+#   maven_build_and_test:
+#     docker:
+#       - image: maven
+
+#     working_directory: ~/product-import
+#     steps:
+#       - checkout
+#       - restore_cache:
+#           keys:
+#           - v1-dependencies-{{ checksum "pom.xml" }}
+#           # fallback to using the latest cache if no exact match is found
+#           - v1-dependencies-
+
+#       - run: mvn dependency:go-offline
+
+#       - save_cache:
+#           paths:
+#             - ~/.m2
+#           key: product-import-{{ checksum "pom.xml" }}
+
+#       - run: mvn clean compile
+
+#          # Store tests to compare builds      
+#       - store_test_results:
+#           path: target/classes
+          
+#       # Store artifacts on CircleCI internal repository
+#       - store_artifacts:
+#           path: target/classes
+
+#       - persist_to_workspace:
+#           # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is taken to be the root directory of the workspace.
+#           root: target
+#           # Must be relative path from root
+#           paths:
+#             - classes
+  
+#       # - run:
+#       #     name: Install awscli
+#       #     command: sudo pip install awsebcli --upgrade
+
+#       # - run:
+#       #     name: Installing deployment dependencies
+#       #     command: |
+#       #       sudo apt-get -y -qq update
+#       #       sudo apt-get install python-pip python-dev build-essential
+#       #       sudo pip install --upgrade setuptools
+#       #       sudo pip install awsebcli --upgrade
+
+#       # - run:
+#       #     name: Deploying
+#       #     command: |
+#       #       eb init
+#       #       eb deploy ProductImport-env1
+#   elb_deployment:
+#     docker:
+#       - image: circleci/python:2.7
+#     steps:
+#       - attach_workspace:
+#           at: target
+#       - run:
+#           name: Install awscli
+#           command: sudo pip install awsebcli --upgrade
+
+#       - run:
+#           name: Installing deployment dependencies
+#           command: |
+#             sudo apt-get -y -qq update
+#             sudo apt-get install python-pip python-dev build-essential
+#             sudo pip install --upgrade setuptools
+#             sudo pip install awsebcli --upgrade
+
+#       - run:
+#           name: Deploying
+#           command: eb deploy ProductImport-env1
+
+#   build:
+#     docker:
+#       - image: 'circleci/openjdk:11-jdk'
+#     steps:
+#       - checkout
+#       - run:
+#           name: Analyze on SonarCloud
+#           command: mvn verify sonar:sonar
+
+# workflows:
+#   version: 2
+#   maven_build_and_test:
+#     jobs:
+#       - maven_build_and_test:
+#           context: aws
+#           filters:
+#             branches:
+#               only: main
+#       - build:
+#           context: SonarCloud
+#           requires:
+#             maven_build_and_test
+
+#       - elb_deployment:
+#           requires:
+#             build
+#     # jobs:
+#     #   - maven/test # checkout, build, test, and upload test results
+
+version: 2.1
 orbs:
   maven: circleci/maven@0.0.12
   node: circleci/node@1.1.6
-
 jobs:
-  maven_build_and_test:
-    docker:
-      - image: maven
-
-    working_directory: ~/product-import
+  build-and-test:
     steps:
       - checkout
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "pom.xml" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
-      - run: mvn dependency:go-offline
-
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: product-import-{{ checksum "pom.xml" }}
-
-      - run: mvn clean compile
-
-         # Store tests to compare builds      
-      - store_test_results:
-          path: target/classes
-          
-      # Store artifacts on CircleCI internal repository
-      - store_artifacts:
-          path: target/classes
-
-      - persist_to_workspace:
-          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is taken to be the root directory of the workspace.
-          root: target
-          # Must be relative path from root
-          paths:
-            - classes
-  
-      # - run:
-      #     name: Install awscli
-      #     command: sudo pip install awsebcli --upgrade
-
-      # - run:
-      #     name: Installing deployment dependencies
-      #     command: |
-      #       sudo apt-get -y -qq update
-      #       sudo apt-get install python-pip python-dev build-essential
-      #       sudo pip install --upgrade setuptools
-      #       sudo pip install awsebcli --upgrade
-
-      # - run:
-      #     name: Deploying
-      #     command: |
-      #       eb init
-      #       eb deploy ProductImport-env1
-  elb_deployment:
-    docker:
-      - image: circleci/python:2.7
-    steps:
-      - attach_workspace:
-          at: target
-      - run:
-          name: Install awscli
-          command: sudo pip install awsebcli --upgrade
-
-      - run:
-          name: Installing deployment dependencies
-          command: |
-            sudo apt-get -y -qq update
-            sudo apt-get install python-pip python-dev build-essential
-            sudo pip install --upgrade setuptools
-            sudo pip install awsebcli --upgrade
-
-      - run:
-          name: Deploying
-          command: eb deploy ProductImport-env1
-
-  build:
-    docker:
-      - image: 'circleci/openjdk:11-jdk'
-    steps:
-      - checkout
-      - run:
-          name: Analyze on SonarCloud
-          command: mvn verify sonar:sonar
+      - node/with-cache:
+          steps:
+            - run: mvn clean compile
+            - run:
+                name: Installing deployment dependencies
+                command: |
+                  sudo apt-get -y -qq update
+                  sudo apt-get install python-pip python-dev build-essential
+                  sudo pip install --upgrade setuptools
+                  sudo pip install awsebcli --upgrade
+            - run:
+                name: Deploying
+                command: eb deploy ProductImport-env
 
 workflows:
-  version: 2
-  maven_build_and_test:
+  build-and-test:
     jobs:
-      - maven_build_and_test:
+      - build-and-test:
           context: aws
           filters:
             branches:
-              only: main
-      - build:
-          context: SonarCloud
-      - elb_deployment
-    # jobs:
-    #   - maven/test # checkout, build, test, and upload test results
+              only:
+                - main
