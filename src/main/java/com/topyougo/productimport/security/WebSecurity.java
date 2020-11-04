@@ -47,6 +47,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
 				.antMatchers(HttpMethod.POST, SecurityConstants.LOGIN_URL).permitAll()
 				.antMatchers(HttpMethod.GET, SecurityConstants.LOGOUT_URL).permitAll()
+				.antMatchers(HttpMethod.GET, SecurityConstants.HEALTH_CHECK).permitAll()
+				.antMatchers(HttpMethod.GET, SecurityConstants.SHOPIFY_WEBHOOK).permitAll()
 				.anyRequest()
 				.authenticated()
 				.and()

@@ -8,4 +8,6 @@ public class SecurityConstants {
     public static final String SIGN_UP_URL = "/api/register";
     public static final String LOGIN_URL = "/api/login";
     public static final String LOGOUT_URL = "/api/logout";
+    public static final String HEALTH_CHECK = "/";
+    public static final String SHOPIFY_WEBHOOK = "/api/store/shopifyWebhook";
 }

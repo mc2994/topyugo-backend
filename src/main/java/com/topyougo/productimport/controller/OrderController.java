@@ -42,6 +42,11 @@ public class OrderController {
 
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
+	
+	@GetMapping("/healthCheck")
+	public ResponseEntity<String> healthCheck() {
+		return new ResponseEntity<String>("Healthy", HttpStatus.OK);
+	}
 
 	@PostMapping("/order")
 	public ResponseEntity<Orders> addOrder(@RequestBody ProductsDTO product) {

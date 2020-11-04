@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.topyougo.productimport.dto.DataResponse;
 import com.topyougo.productimport.dto.ResponseDetails;
 import com.topyougo.productimport.service.JntIntegrationService;
+
 import io.sentry.Sentry;
 import io.sentry.SentryClient;
 import io.sentry.SentryClientFactory;
@@ -103,7 +104,7 @@ public class JntIntegrationServiceImpl implements JntIntegrationService {
 	             This sends a simple event to Sentry using the statically stored instance
 	             that was created in the ``main`` method.
 	             */
-	          //  Sentry.capture("This is a test");
+	            Sentry.capture("This is a test");
 	            Sentry.capture(err);
 		}
 		
