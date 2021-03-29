@@ -1,12 +1,18 @@
 package com.topyougo.productimport.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +25,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import com.topyougo.productimport.component.UtilityClass;
+
 import com.topyougo.productimport.model.Orders;
 import com.topyougo.productimport.repository.OrderRepository;
 
@@ -35,9 +41,9 @@ public class OrderControllerTests {
 	@Autowired
 	private WebApplicationContext context;
 
-	@MockBean
+	@Mock
 	OrderRepository orderRepository;
-	
+
 	@MockBean
 	private Orders order;
 
@@ -45,32 +51,31 @@ public class OrderControllerTests {
 	public void setup() {
 		logger.info("@BeforeAll - executes once before all test methods in this class");
 		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-		
-		order = new Orders();
-		order.setFirstName("Mc Kinley");
-		order.setLastName("Tolentino");
 	}
 
 	@BeforeEach
 	void init() {
 		logger.info("@BeforeEach - executes before each test method in this class");
-		System.out.println(">>>>>>>>>>>>>> hereeeeeeeeeeee");
+
+		when(orderRepository.findAllByOrderByOrderIDDesc()).thenReturn(new ArrayList<Orders>());
 	}
 
 	@Test
 	public void contextLoads() throws Exception {
-		
+
 		List<Orders> ordersList = new ArrayList<Orders>();
+		Orders order = new Orders();
+		order.setFirstName("Mc Kinley");
+		order.setLastName("Tolentino");
 		ordersList.add(order);
-		
-		when(orderRepository.findAllByOrderByOrderIDDesc()).thenReturn(ordersList);
-		
+
 		MvcResult result = mockMvc
 				.perform(MockMvcRequestBuilders.get("/api/fetchRecords").accept(MediaType.APPLICATION_JSON_VALUE))
 				.andReturn();
-		
-		System.out.println(UtilityClass.toJson(result.getResponse().getContentAsString()));
-		
+
+		assertNotNull(result.getResponse().getContentAsString());
+
+		assertEquals(new ArrayList<Orders>(), orderRepository.findAllByOrderByOrderIDDesc());
 		verify(orderRepository, times(1)).findAllByOrderByOrderIDDesc();
 	}
 }

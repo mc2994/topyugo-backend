@@ -1,5 +1,6 @@
 package com.topyougo.productimport.component;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,5 +33,10 @@ public class UtilityClass {
 			}
 		}
 		return finalDate;
+	}
+	
+	public static String fortmatDateToString(Date date) {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		return dateFormat.format(date);
 	}
 }

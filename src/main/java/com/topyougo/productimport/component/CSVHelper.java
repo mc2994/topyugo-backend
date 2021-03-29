@@ -32,6 +32,7 @@ import com.topyougo.productimport.dto.TrackingStatus;
 
 @Component
 public class CSVHelper {
+	
 	public static String TYPE = "text/csv";
 	static String[] HEADERs = { "Id", "Title", "Description", "Published" };
 

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.topyougo.productimport.component.OrderConverter;
 import com.topyougo.productimport.component.SqlQuery;
+import com.topyougo.productimport.component.UtilityClass;
 import com.topyougo.productimport.dto.OrderMapper;
 import com.topyougo.productimport.dto.OrdersMapper;
 import com.topyougo.productimport.dto.ProductsDTO;
@@ -89,12 +90,11 @@ public class OrderController {
 	public ResponseEntity<List<ProductsDTO>> fetchRecordsByUsertype(@PathVariable("userType") String userType) {
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("userType", userType);
+			
+		String query = SqlQuery.GET_ORDERS+"AND DateOrdered='"+UtilityClass.fortmatDateToString(new Date())+ "' ORDER BY ID DESC";
 		
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = new Date();
-		
-		String query = SqlQuery.GET_ORDERS+"AND DateOrdered='"+dateFormat.format(date)+ "' ORDER BY ID DESC";
 		List<Orders> ordersList = jdbcTemplate.query(query, parameters, new OrdersMapper());
+		
 		List<ProductsDTO> productsList = OrderConverter.convertModelToDTO(ordersList);		
 		return new ResponseEntity<List<ProductsDTO>>(productsList, HttpStatus.OK);
 	}

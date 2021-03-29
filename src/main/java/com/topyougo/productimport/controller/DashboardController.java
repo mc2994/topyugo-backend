@@ -1,7 +1,6 @@
 package com.topyougo.productimport.controller;
 
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.topyougo.productimport.component.UtilityClass;
 import com.topyougo.productimport.dto.Dashboard1DTO;
 import com.topyougo.productimport.dto.Dashboard2DTO;
@@ -25,7 +23,7 @@ import com.topyougo.productimport.service.DashboardService;
 @RequestMapping("/api")
 public class DashboardController {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private DashboardService dashboardService;
@@ -38,9 +36,8 @@ public class DashboardController {
 	public ResponseEntity<?> fetchDashboard1(@RequestParam("month") String month,
 			@RequestParam("year") String year) {
 	
+		logger.info("Fetching dashboard 1 records...");
 		Dashboard1DTO result = dashboardService.getDashboardService(month, year);
-		
-		System.out.println(UtilityClass.toJson(result));
 
 		return new ResponseEntity<Dashboard1DTO>(result, HttpStatus.OK);
 	}
@@ -49,10 +46,8 @@ public class DashboardController {
 	public ResponseEntity<?> fetchDashboard5(@RequestParam("month") String month,
 			@RequestParam("year") String year) {
 	
+		logger.info("Fetching dashboard 5 records...");
 		List<Dashboard5> result = dashboard5Service.getDashboard5(month, year);
-		
-		System.out.println(UtilityClass.toJson(result));
-
 		return new ResponseEntity<List<Dashboard5>>(result, HttpStatus.OK);
 	}
 	
@@ -60,9 +55,8 @@ public class DashboardController {
 	public ResponseEntity<?> fetchDashboard2(@RequestParam("month") String month,
 			@RequestParam("year") String year) {
 	
+		logger.info("Fetching dashboard 2 records...");
 		Dashboard2DTO result = dashboardService.getDashboard2Service(month, year);
-		
-		System.out.println(UtilityClass.toJson(result));
 
 		return new ResponseEntity<Dashboard2DTO>(result, HttpStatus.OK);
 	}
