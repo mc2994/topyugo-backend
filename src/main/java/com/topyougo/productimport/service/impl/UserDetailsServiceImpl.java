@@ -5,8 +5,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import com.topyougo.productimport.component.UtilityClass;
 import com.topyougo.productimport.model.User;
 import com.topyougo.productimport.service.ApplicationUserRepository;
 

@@ -44,20 +44,6 @@ public class Dashboard2 implements Serializable{
 		
 	}
 
-	public Dashboard2(Integer month, Integer year, String amount, String totalOrders, String captureRate, String ads,
-			String aov, String acpp, String roas) {
-		super();
-		this.month = month;
-		this.year = year;
-		this.amount = amount;
-		this.totalOrders = totalOrders;
-		this.captureRate = captureRate;
-		this.ads = ads;
-		this.aov = aov;
-		this.acpp = acpp;
-		this.roas = roas;
-	}
-
 	public Integer getMonth() {
 		return month;
 	}
@@ -128,12 +114,5 @@ public class Dashboard2 implements Serializable{
 
 	public void setRoas(String roas) {
 		this.roas = roas;
-	}
-
-	@Override
-	public String toString() {
-		return "Dashboard2 [month=" + month + ", year=" + year + ", amount=" + amount + ", totalOrders=" + totalOrders
-				+ ", captureRate=" + captureRate + ", ads=" + ads + ", aov=" + aov + ", acpp=" + acpp + ", roas=" + roas
-				+ "]";
 	}
 }

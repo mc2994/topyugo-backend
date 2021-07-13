@@ -1,15 +1,8 @@
 package com.topyougo.productimport.dto;
 
-import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
-public class ShopifyLineItems implements Serializable  {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class ShopifyLineItems {
 	
 	private String title;
 	private Integer quantity;
@@ -19,15 +12,6 @@ public class ShopifyLineItems implements Serializable  {
 	
 	public ShopifyLineItems() {
 		
-	}
-
-	public ShopifyLineItems(String title, Integer quantity, String variant_title, Double price, PriceSet price_set) {
-		super();
-		this.title = title;
-		this.quantity = quantity;
-		this.variant_title = variant_title;
-		this.price = price;
-		this.price_set = price_set;
 	}
 
 	public String getTitle() {
@@ -69,12 +53,6 @@ public class ShopifyLineItems implements Serializable  {
 	public void setPrice_set(PriceSet price_set) {
 		this.price_set = price_set;
 	}
-
-	@Override
-	public String toString() {
-		return "ShopifyLineItems [title=" + title + ", quantity=" + quantity + ", variant_title=" + variant_title
-				+ ", price=" + price + ", price_set=" + price_set + "]";
-	}
 }
 
 class PriceSet{
@@ -84,11 +62,7 @@ class PriceSet{
 	public PriceSet() {
 		
 	}
-	
-	public PriceSet(Map<String, String> shop_money, Map<String, String> presentment_money) {
-		this.shop_money = shop_money;
-		this.presentment_money = presentment_money;
-	}
+
 	public Map<String, String> getShop_money() {
 		return shop_money;
 	}
@@ -100,10 +74,5 @@ class PriceSet{
 	}
 	public void setPresentment_money(Map<String, String> presentment_money) {
 		this.presentment_money = presentment_money;
-	}
-
-	@Override
-	public String toString() {
-		return "PriceSet [shop_money=" + shop_money + ", presentment_money=" + presentment_money + "]";
 	}
 }

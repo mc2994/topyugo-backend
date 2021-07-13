@@ -3,6 +3,7 @@ package com.topyougo.productimport.dto;
 import java.util.Map;
 
 public class ObjectResponse {
+	
 	private Map<String, String> sqlid;
 	private String code;
 	private DataResponse data;
@@ -11,14 +12,7 @@ public class ObjectResponse {
 	public ObjectResponse() {
 		
 	}
-	public ObjectResponse(Map<String, String> sqlid, String code, com.topyougo.productimport.dto.DataResponse data,
-			boolean success) {
-		super();
-		this.sqlid = sqlid;
-		this.code = code;
-		this.data = data;
-		this.success = success;
-	}
+
 	public Map<String, String> getSqlid() {
 		return sqlid;
 	}
@@ -43,8 +37,4 @@ public class ObjectResponse {
 	public void setSuccess(boolean success) {
 		this.success = success;
 	}
-	@Override
-	public String toString() {
-		return "ObjectResponse [sqlid=" + sqlid + ", code=" + code + ", data=" + data + ", success=" + success + "]";
-	}	
 }

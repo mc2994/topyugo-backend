@@ -2,58 +2,24 @@ package com.topyougo.productimport.dto;
 
 public class Dashboard1DTO {
 
-	private Long id;
-	
-	private String month;
-	
+	private Long id;	
+	private String month;	
 	private String salesGoal;
-
-	private String sales;
-	
-	private Double salesPercentage;
-	
-	private String shippedGoal;
-	
-	private String shipped;
-	
-	private Double shippingPercentage;
-	
-	private String deliveredGoal;
-	
-	private String delivered;
-	
-	private Double deliveredPercentage;
-	
-	private String paidGoal;
-	
-	private Double paid;
-	
-	private Double paidPercentage;
-	
+	private String sales;	
+	private Double salesPercentage;	
+	private String shippedGoal;	
+	private String shipped;	
+	private Double shippingPercentage;	
+	private String deliveredGoal;	
+	private String delivered;	
+	private Double deliveredPercentage;	
+	private String paidGoal;	
+	private Double paid;	
+	private Double paidPercentage;	
 	private String currentDate;
 	
 	public Dashboard1DTO() {
 		
-	}
-
-	public Dashboard1DTO(Long id, String month, String salesGoal, String sales, Double salesPercentage,
-			String shippedGoal, String shipped, Double shippingPercentage, String deliveredGoal, String delivered,
-			Double deliveredPercentage, String paidGoal, Double paid, Double paidPercentage) {
-		super();
-		this.id = id;
-		this.month = month;
-		this.salesGoal = salesGoal;
-		this.sales = sales;
-		this.salesPercentage = salesPercentage;
-		this.shippedGoal = shippedGoal;
-		this.shipped = shipped;
-		this.shippingPercentage = shippingPercentage;
-		this.deliveredGoal = deliveredGoal;
-		this.delivered = delivered;
-		this.deliveredPercentage = deliveredPercentage;
-		this.paidGoal = paidGoal;
-		this.paid = paid;
-		this.paidPercentage = paidPercentage;
 	}
 
 	public Long getId() {
@@ -174,14 +140,5 @@ public class Dashboard1DTO {
 
 	public void setCurrentDate(String currentDate) {
 		this.currentDate = currentDate;
-	}
-
-	@Override
-	public String toString() {
-		return "Dashboard1DTO [id=" + id + ", month=" + month + ", salesGoal=" + salesGoal + ", sales=" + sales
-				+ ", salesPercentage=" + salesPercentage + ", shippedGoal=" + shippedGoal + ", shipped=" + shipped
-				+ ", shippingPercentage=" + shippingPercentage + ", deliveredGoal=" + deliveredGoal + ", delivered="
-				+ delivered + ", deliveredPercentage=" + deliveredPercentage + ", paidGoal=" + paidGoal + ", paid="
-				+ paid + ", paidPercentage=" + paidPercentage + "]";
 	}
 }
