@@ -64,26 +64,6 @@ public class Dashboard1 implements Serializable{
 		
 	}
 
-	public Dashboard1(Long id, String month, String salesGoal, String sales, Double salesPercentage, String shippedGoal,
-			String shipped, Double shippingPercentage, String deliveredGoal, String delivered,
-			Double deliveredPercentage, String paidGoal, Double paid, Double paidPercentage) {
-		super();
-		this.id = id;
-		this.month = month;
-		this.salesGoal = salesGoal;
-		this.sales = sales;
-		this.salesPercentage = salesPercentage;
-		this.shippedGoal = shippedGoal;
-		this.shipped = shipped;
-		this.shippingPercentage = shippingPercentage;
-		this.deliveredGoal = deliveredGoal;
-		this.delivered = delivered;
-		this.deliveredPercentage = deliveredPercentage;
-		this.paidGoal = paidGoal;
-		this.paid = paid;
-		this.paidPercentage = paidPercentage;
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -194,14 +174,5 @@ public class Dashboard1 implements Serializable{
 
 	public void setPaidPercentage(Double paidPercentage) {
 		this.paidPercentage = paidPercentage;
-	}
-
-	@Override
-	public String toString() {
-		return "Dashboard1Repository [month=" + month + ", salesGoal=" + salesGoal + ", sales=" + sales + ", salesPercentage="
-				+ salesPercentage + ", shippedGoal=" + shippedGoal + ", shipped=" + shipped + ", shippingPercentage="
-				+ shippingPercentage + ", deliveredGoal=" + deliveredGoal + ", delivered=" + delivered
-				+ ", deliveredPercentage=" + deliveredPercentage + ", paidGoal=" + paidGoal + ", paid=" + paid
-				+ ", paidPercentage=" + paidPercentage + "]";
 	}
 }

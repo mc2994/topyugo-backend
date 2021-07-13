@@ -1,30 +1,37 @@
 package com.topyougo.productimport.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class UserDTO {
 
+	@NotEmpty(message = "Username field is required")   
 	private String username;
+	
+	@NotEmpty(message = "Email is required")
+	@Email(message = "Email should be valid")
 	private String email;
+	
+	@Size(min = 8, message = "Password should be less than 8 characters")
 	private String password;
+	
+	@NotEmpty(message = "This field is required")   
 	private String firstName; 
+	
+	@NotEmpty(message = "This field is required")
 	private String lastName;
+	
+	@NotEmpty(message = "This field is required")
 	private String userType;
+	
+	@NotEmpty(message = "This field is required")
 	private String status;
 	
 	public UserDTO() {
 		
 	}	
 	
-	public UserDTO(String username, String email, String password, String firstName, String lastName,
-			String userType, String status) {
-		super();
-		this.username = username;
-		this.email = email;
-		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.userType = userType;
-		this.status = status;
-	}
 	public String getUsername() {
 		return username;
 	}

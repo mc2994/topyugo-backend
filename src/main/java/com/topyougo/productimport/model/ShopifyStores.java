@@ -63,10 +63,4 @@ public class ShopifyStores {
 	public void setDomainName(String domainName) {
 		this.domainName = domainName;
 	}
-
-	@Override
-	public String toString() {
-		return "ShopifyStores [id=" + id + ", storeName=" + storeName + ", apiKey=" + apiKey + ", password=" + password
-				+ ", domainName=" + domainName + "]";
-	}
 }

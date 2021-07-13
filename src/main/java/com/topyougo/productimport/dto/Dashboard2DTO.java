@@ -2,40 +2,18 @@ package com.topyougo.productimport.dto;
 
 public class Dashboard2DTO {
 
-	private Integer month;
-	
+	private Integer month;	
 	private Integer year;
-	
-	private String amount;
-	
-	private String totalOrders;
-	
-	private String captureRate;
-	
-	private String ads;
-	
-	private String aov;
-	
-	private String acpp;
-	
+	private String amount;	
+	private String totalOrders;	
+	private String captureRate;	
+	private String ads;	
+	private String aov;	
+	private String acpp;	
 	private String roas;
 
 	public Dashboard2DTO() {
 		
-	}
-
-	public Dashboard2DTO(Integer month, Integer year, String amount, String totalOrders, String captureRate, String ads,
-			String aov, String acpp, String roas) {
-		super();
-		this.month = month;
-		this.year = year;
-		this.amount = amount;
-		this.totalOrders = totalOrders;
-		this.captureRate = captureRate;
-		this.ads = ads;
-		this.aov = aov;
-		this.acpp = acpp;
-		this.roas = roas;
 	}
 
 	public Integer getMonth() {

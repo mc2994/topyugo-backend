@@ -8,12 +8,6 @@ public class DefaultAddress{
 	public DefaultAddress() {
 		
 	}
-	
-	public DefaultAddress(String province, String address1) {
-		super();
-		this.province = province;
-		this.address1 = address1;
-	}
 
 	public String getProvince() {
 		return province;
@@ -29,10 +23,5 @@ public class DefaultAddress{
 
 	public void setAddress1(String address1) {
 		this.address1 = address1;
-	}
-
-	@Override
-	public String toString() {
-		return "DefaultAddress [province=" + province + ", address1=" + address1 + "]";
 	}
 }

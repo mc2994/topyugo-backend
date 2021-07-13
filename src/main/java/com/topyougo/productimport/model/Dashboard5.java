@@ -34,14 +34,6 @@ public class Dashboard5 implements Serializable{
 		
 	}
 
-	public Dashboard5(Integer rank, String product, String sales, Double salesRate) {
-		super();
-		this.rank = rank;
-		this.product = product;
-		this.sales = sales;
-		this.salesRate = salesRate;
-	}
-
 	public Integer getRank() {
 		return rank;
 	}
@@ -72,11 +64,5 @@ public class Dashboard5 implements Serializable{
 
 	public void setSalesRate(Double salesRate) {
 		this.salesRate = salesRate;
-	}
-
-	@Override
-	public String toString() {
-		return "Dashboard5 [rank=" + rank + ", product=" + product + ", sales=" + sales + ", salesRate=" + salesRate
-				+ "]";
 	}
 }

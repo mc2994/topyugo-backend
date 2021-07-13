@@ -14,14 +14,6 @@ public class ResponseDetails {
 		this.desc = "";
 	}
 
-	public ResponseDetails(String scantype, String scanscode, String scanstatus, String desc) {
-		super();
-		this.scantype = scantype;
-		this.scanscode = scanscode;
-		this.scanstatus = scanstatus;
-		this.desc = desc;
-	}
-
 	public String getScantype() {
 		return scantype;
 	}
@@ -52,11 +44,5 @@ public class ResponseDetails {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
-	}
-
-	@Override
-	public String toString() {
-		return "ResponseDetails [scantype=" + scantype + ", scanscode=" + scanscode + ", scanstatus=" + scanstatus
-				+ ", desc=" + desc + "]";
 	}
 }

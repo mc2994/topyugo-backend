@@ -13,6 +13,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,17 +22,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.topyougo.productimport.component.OrderConverter;
-import com.topyougo.productimport.component.UtilityClass;
 import com.topyougo.productimport.dto.OrderDTO;
-import com.topyougo.productimport.dto.OrderStatus;
 import com.topyougo.productimport.dto.ShopifyOrderDTO;
 import com.topyougo.productimport.model.Orders;
 import com.topyougo.productimport.model.ShopifyStores;
+import com.topyougo.productimport.modelmapper.ShopifyOrderMapper;
 import com.topyougo.productimport.repository.OrderRepository;
 import com.topyougo.productimport.repository.ShopifyStoreRepository;
+import com.topyougo.productimport.util.JsonUtil;
 
 @RestController
 @RequestMapping("/api/store")
@@ -52,14 +50,15 @@ public class ShopifyIntegrationController {
 	public void shopifyWebhook(@RequestHeader(value = "X-Shopify-Shop-Domain", required = true) String storeName,
 			@RequestBody ShopifyOrderDTO response){
 		
-		System.out.println(UtilityClass.toJson(response));
+		System.out.println(JsonUtil.toJson(response));
 		
 		ShopifyStores store = shopifyRepository.findShopifyStoresByStoreName(storeName);
-		if(store!=null) {
-			Orders order = OrderConverter.convertShopifyToOrder(response);
-			//order.setOrderStatus(OrderStatus.VOIDED);
-			orderRepository.save(order);	
+		
+		if(ObjectUtils.isEmpty(store)) {
+			return;
 		}
+		Orders order = ShopifyOrderMapper.convertShopifyToOrder(response);
+		orderRepository.save(order);	
 	}
 	
 	@GetMapping("/orders")
@@ -93,7 +92,7 @@ public class ShopifyIntegrationController {
 			}
 			
 			if(ordered!=null) {
-				List<Orders> orderedList = OrderConverter.convertShopifyOrders(ordered);
+				List<Orders> orderedList = ShopifyOrderMapper.convertShopifyOrders(ordered);
 				orderRepository.saveAll(orderedList);	
 			}
 				

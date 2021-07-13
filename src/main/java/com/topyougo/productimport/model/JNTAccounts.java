@@ -23,15 +23,6 @@ public class JNTAccounts {
 		
 	}
 
-	
-	
-	public JNTAccounts(Integer userId, String userName, String password) {
-		super();
-		this.userId = userId;
-		this.userName = userName;
-		this.password = password;
-	}
-
 	public Integer getUserId() {
 		return userId;
 	}
@@ -54,10 +45,5 @@ public class JNTAccounts {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	@Override
-	public String toString() {
-		return "JNTAccounts [userId=" + userId + ", userName=" + userName + ", password=" + password + "]";
 	}
 }

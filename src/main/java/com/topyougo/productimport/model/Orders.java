@@ -14,9 +14,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.topyougo.productimport.dto.Courier;
-import com.topyougo.productimport.dto.OrderStatus;
-import com.topyougo.productimport.dto.TrackingStatus;
+import com.topyougo.productimport.constant.Courier;
+import com.topyougo.productimport.constant.OrderStatus;
+import com.topyougo.productimport.constant.TrackingStatus;
 
 @Entity
 @Table(name="orders")
@@ -116,42 +116,6 @@ public class Orders implements Serializable  {
 	
 	public Orders() {
 		
-	}
-
-	public Orders(Long orderID, Date dateOrdered, String firstName, String lastName, String orderNo,
-			OrderStatus orderStatus, Double codAmount, String contactNo, String product, String variant, Double amount,
-			Integer quantity, Double orderAmount, String address, Date shippingDate, Courier courier,
-			String customerNote, Date shippingDate2, String rtsReason, String rtsDetails, Date dateIntransit,
-			Integer daysIntransit, Double shippingFee, String province, String region, String trackingNumber,
-			TrackingStatus trackingStatus) {
-		super();
-		this.orderID = orderID;
-		this.dateOrdered = dateOrdered;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.orderNo = orderNo;
-		this.orderStatus = orderStatus;
-		this.codAmount = codAmount;
-		this.contactNo = contactNo;
-		this.product = product;
-		this.variant = variant;
-		this.amount = amount;
-		this.quantity = quantity;
-		this.orderAmount = orderAmount;
-		this.address = address;
-		this.shippingDate = shippingDate;
-		this.courier = courier;
-		this.customerNote = customerNote;
-		this.shippingDate2 = shippingDate2;
-		this.rtsReason = rtsReason;
-		this.rtsDetails = rtsDetails;
-		this.dateIntransit = dateIntransit;
-		this.daysIntransit = daysIntransit;
-		this.shippingFee = shippingFee;
-		this.province = province;
-		this.region = region;
-		this.trackingNumber = trackingNumber;
-		this.trackingStatus = trackingStatus;
 	}
 
 	public Long getOrderID() {
@@ -368,18 +332,5 @@ public class Orders implements Serializable  {
 
 	public void setTrackingStatus(TrackingStatus trackingStatus) {
 		this.trackingStatus = trackingStatus;
-	}
-
-	@Override
-	public String toString() {
-		return "Orders [orderID=" + orderID + ", dateOrdered=" + dateOrdered + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", orderNo=" + orderNo + ", orderStatus=" + orderStatus + ", codAmount="
-				+ codAmount + ", contactNo=" + contactNo + ", product=" + product + ", variant=" + variant + ", amount="
-				+ amount + ", quantity=" + quantity + ", orderAmount=" + orderAmount + ", address=" + address
-				+ ", shippingDate=" + shippingDate + ", courier=" + courier + ", customerNote=" + customerNote
-				+ ", shippingDate2=" + shippingDate2 + ", rtsReason=" + rtsReason + ", rtsDetails=" + rtsDetails
-				+ ", dateIntransit=" + dateIntransit + ", daysIntransit=" + daysIntransit + ", shippingFee="
-				+ shippingFee + ", province=" + province + ", region=" + region + ", trackingNumber=" + trackingNumber
-				+ ", trackingStatus=" + trackingStatus + "]";
 	}
 }

@@ -1,5 +1,9 @@
 package com.topyougo.productimport.security;
 
+import static com.topyougo.productimport.constant.SecurityConstants.HEADER_STRING;
+import static com.topyougo.productimport.constant.SecurityConstants.SECRET;
+import static com.topyougo.productimport.constant.SecurityConstants.TOKEN_PREFIX;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.FilterChain;
@@ -12,9 +16,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import static com.topyougo.productimport.security.SecurityConstants.TOKEN_PREFIX;
-import static com.topyougo.productimport.security.SecurityConstants.SECRET;
-import static com.topyougo.productimport.security.SecurityConstants.HEADER_STRING;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 

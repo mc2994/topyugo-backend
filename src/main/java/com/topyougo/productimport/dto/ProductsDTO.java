@@ -2,14 +2,23 @@ package com.topyougo.productimport.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotEmpty;
+
+import com.topyougo.productimport.constant.Courier;
+import com.topyougo.productimport.constant.OrderStatus;
+import com.topyougo.productimport.constant.TrackingStatus;
+
 public class ProductsDTO {
 
+	@NotEmpty(message = "This field is required")
 	private Long orderID;
+	
+	@NotEmpty(message = "This field is required")  
 	private String orderNo;
 	private Date dateOrdered;
 	private String firstName;
 	private String lastName;
-	private String orderStatus;
+	private OrderStatus orderStatus;
 	private Double codAmount;
 	private String contactNo;
 	private String product;
@@ -19,7 +28,7 @@ public class ProductsDTO {
 	private Double orderAmount;
 	private String address;
 	private Date shippingDate;
-	private String courier;
+	private Courier courier;
 	private String customerNote;
 	private String rtsReason;
 	private String rtsDetails;
@@ -29,44 +38,10 @@ public class ProductsDTO {
 	private String province;
 	private String region;
 	private String trackingNumber;
-	private String trackingStatus;
+	private TrackingStatus trackingStatus;
 
 	public ProductsDTO() {
 
-	}
-
-	public ProductsDTO(Long orderID, String orderNo, Date dateOrdered, String firstName, String lastName,
-			String orderStatus, Double codAmount, String contactNo, String product, String variant, Double amount,
-			Integer quantity, Double orderAmount, String address, Date shippingDate, String courier,
-			String customerNote, String rtsReason, String rtsDetails, Date dateIntransit, Integer daysIntransit,
-			Double shippingFee, String province, String region, String trackingNumber, String trackingStatus) {
-		super();
-		this.orderID = orderID;
-		this.orderNo = orderNo;
-		this.dateOrdered = dateOrdered;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.orderStatus = orderStatus;
-		this.codAmount = codAmount;
-		this.contactNo = contactNo;
-		this.product = product;
-		this.variant = variant;
-		this.amount = amount;
-		this.quantity = quantity;
-		this.orderAmount = orderAmount;
-		this.address = address;
-		this.shippingDate = shippingDate;
-		this.courier = courier;
-		this.customerNote = customerNote;
-		this.rtsReason = rtsReason;
-		this.rtsDetails = rtsDetails;
-		this.dateIntransit = dateIntransit;
-		this.daysIntransit = daysIntransit;
-		this.shippingFee = shippingFee;
-		this.province = province;
-		this.region = region;
-		this.trackingNumber = trackingNumber;
-		this.trackingStatus = trackingStatus;
 	}
 
 	public Long getOrderID() {
@@ -109,11 +84,11 @@ public class ProductsDTO {
 		this.lastName = lastName;
 	}
 
-	public String getOrderStatus() {
+	public OrderStatus getOrderStatus() {
 		return orderStatus;
 	}
 
-	public void setOrderStatus(String orderStatus) {
+	public void setOrderStatus(OrderStatus orderStatus) {
 		this.orderStatus = orderStatus;
 	}
 
@@ -189,11 +164,11 @@ public class ProductsDTO {
 		this.shippingDate = shippingDate;
 	}
 
-	public String getCourier() {
+	public Courier getCourier() {
 		return courier;
 	}
 
-	public void setCourier(String courier) {
+	public void setCourier(Courier courier) {
 		this.courier = courier;
 	}
 
@@ -269,24 +244,11 @@ public class ProductsDTO {
 		this.trackingNumber = trackingNumber;
 	}
 
-	public String getTrackingStatus() {
+	public TrackingStatus getTrackingStatus() {
 		return trackingStatus;
 	}
 
-	public void setTrackingStatus(String trackingStatus) {
+	public void setTrackingStatus(TrackingStatus trackingStatus) {
 		this.trackingStatus = trackingStatus;
-	}
-
-	@Override
-	public String toString() {
-		return "ProductsDTO [orderID=" + orderID + ", orderNo=" + orderNo + ", dateOrdered=" + dateOrdered
-				+ ", firstName=" + firstName + ", lastName=" + lastName + ", orderStatus=" + orderStatus
-				+ ", codAmount=" + codAmount + ", contactNo=" + contactNo + ", product=" + product + ", variant="
-				+ variant + ", amount=" + amount + ", quantity=" + quantity + ", orderAmount=" + orderAmount
-				+ ", address=" + address + ", shippingDate=" + shippingDate + ", courier=" + courier + ", customerNote="
-				+ customerNote + ", rtsReason=" + rtsReason + ", rtsDetails=" + rtsDetails + ", dateIntransit="
-				+ dateIntransit + ", daysIntransit=" + daysIntransit + ", shippingFee=" + shippingFee + ", province="
-				+ province + ", region=" + region + ", trackingNumber=" + trackingNumber + ", trackingStatus="
-				+ trackingStatus + "]";
 	}
 }

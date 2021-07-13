@@ -1,8 +1,9 @@
 package com.topyougo.productimport.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,27 +15,34 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.topyougo.productimport.component.UtilityClass;
-import com.topyougo.productimport.dto.Status;
+import com.topyougo.productimport.constant.Status;
+import com.topyougo.productimport.constant.UserType;
 import com.topyougo.productimport.dto.UserDTO;
-import com.topyougo.productimport.dto.UserType;
 import com.topyougo.productimport.model.User;
 import com.topyougo.productimport.model.UserRoles;
+import com.topyougo.productimport.modelmapper.UserEntityMapper;
 import com.topyougo.productimport.repository.UserRepository;
 import com.topyougo.productimport.repository.UserRolesRepository;
 import com.topyougo.productimport.security.JwtProvider;
 import com.topyougo.productimport.security.JwtResponse;
 import com.topyougo.productimport.service.impl.UserPrinciple;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "User", description = "User authentication and Registration")
+//@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -48,17 +56,19 @@ public class UserController {
 	private UserRolesRepository userRolesRepository;
 
 	@Autowired
-	AuthenticationManager authenticationManager;
-
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private AuthenticationManager authenticationManager;
 
 	@Autowired
 	private JwtProvider jwtProvider;
 
+	@Operation(summary = "User login",
+		responses = {
+			@ApiResponse(description = "Successful Operation", responseCode = "200", 
+				content = {@Content(mediaType = "application/json",
+				schema = @Schema(implementation = UserDTO.class))}),
+	        @ApiResponse(description = "Bad Request", responseCode = "400")})
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody UserDTO user) {
-
 		Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
@@ -80,29 +90,21 @@ public class UserController {
 					userDetails.getEmail(), 
 					roles));
 	}
-	
-//	@GetMapping("/logout")
-//	public ResponseEntity<?> logout(@RequestHeader("Authorization") String token) {
-//		System.out.println(">>>>>>> "+token);
-//		String aa = "";
-//		if (token != null && token.startsWith("Bearer ")) {
-//			 aa = token.replace("Bearer ", "");
-//		}
-//		
-//		System.out.println(">>>>>>> "+aa);
-//		
-//		String name = jwtProvider.invalidateToken(token);
-//		return new ResponseEntity<String>(name, HttpStatus.OK);
-//	}
 
+	@Operation(summary = "User Registration", security = @SecurityRequirement(name = "bearerAuth"),
+		responses = {
+			@ApiResponse(description = "User successfully registered", responseCode = "200", 
+				content = {@Content(mediaType = "application/json",
+				schema = @Schema(implementation = UserDTO.class))}),
+	        @ApiResponse(description = "Username and Email Already Exist", responseCode = "400")})
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@PostMapping("/register")
-	public ResponseEntity<?> register(@RequestBody UserDTO user) {
+	public ResponseEntity<?> register(@Valid @RequestBody UserDTO user) {
 		User userResponse = userService.findByUsernameAndEmail(user.getUsername(), user.getEmail());
 		if (userResponse != null) {
 			return new ResponseEntity<String>("Username and Email Already Exist", HttpStatus.BAD_REQUEST);
 		}
-		User result = userService.save(convertDtoToModel(user));
+		User result = userService.save(UserEntityMapper.mapDTOToModel(user));
 
 		UserRoles roles = new UserRoles();
 		roles.setUserId(result.getId());
@@ -112,10 +114,19 @@ public class UserController {
 		return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
 	}
 
+	@Operation(summary = "Update User Information", security = @SecurityRequirement(name = "bearerAuth"),
+		responses = {
+			@ApiResponse(description = "User successfully updated", responseCode = "200", 
+				content = {@Content(mediaType = "application/json",
+				schema = @Schema(implementation = UserDTO.class))}),
+	        @ApiResponse(description = "Username and Email Not Found", responseCode = "404")})
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@PutMapping("/user")
-	public ResponseEntity<?> updateUser(@RequestBody UserDTO user) {
+	public ResponseEntity<?> updateUser(@Valid @RequestBody UserDTO user) {
 		User userResponse = userService.findByUsernameAndEmail(user.getUsername(), user.getEmail());
+		if (userResponse == null) {
+			return new ResponseEntity<String>("Username and Email Not Found", HttpStatus.NOT_FOUND);
+		}
 		userResponse.setFirstName(user.getFirstName());
 		userResponse.setLastName(user.getLastName());
 		userResponse.setStatus(Status.getValueOf(user.getStatus()).getValue());
@@ -125,38 +136,15 @@ public class UserController {
 		return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
 	}
 
+	@Operation(summary = "Fetch all users with ADMIN user type", security = @SecurityRequirement(name = "bearerAuth"),
+		responses = {
+			@ApiResponse(description = "Fetch all users by Admin", responseCode = "200", 
+				content = @Content(mediaType = "application/json")),
+	        @ApiResponse(description = "Username and Email Not Found", responseCode = "404")})
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/allusers")
 	public ResponseEntity<?> getAllUsers() {
 		List<User> userList = userService.findAll();
-		return new ResponseEntity<List<UserDTO>>(convertUserListToModel(userList), HttpStatus.OK);
-	}
-
-	public User convertDtoToModel(UserDTO dto) {
-		User user = new User();
-		user.setEmail(dto.getEmail());
-		user.setFirstName(dto.getFirstName());
-		user.setLastName(dto.getLastName());
-		user.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
-		user.setUsername(dto.getUsername());
-		user.setUserType(UserType.valueOf(dto.getUserType()).toString());
-		user.setStatus(Status.getValueOf(dto.getStatus()).toString());
-		return user;
-	}
-
-	private List<UserDTO> convertUserListToModel(List<User> usersList) {
-		List<UserDTO> userList = new ArrayList<UserDTO>();
-		for (User user : usersList) {
-			UserDTO userDto = new UserDTO();
-			userDto.setEmail(user.getEmail());
-			userDto.setFirstName(user.getFirstName());
-			userDto.setLastName(user.getLastName());
-			userDto.setPassword(user.getPassword());
-			userDto.setUsername(user.getUsername());
-			userDto.setUserType(UserType.valueOf(user.getUserType()).toString());
-			userDto.setStatus(Status.getValueOf(user.getStatus()).getValue());
-			userList.add(userDto);
-		}
-		return userList;
+		return new ResponseEntity<List<UserDTO>>(UserEntityMapper.mapModelListToDTO(userList), HttpStatus.OK);
 	}
 }

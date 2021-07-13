@@ -8,6 +8,7 @@ import com.topyougo.productimport.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+	
 	User findByUsernameAndPassword(String userName, String password);
 	
 	User findByUsernameAndEmail(String userName, String email);

@@ -16,8 +16,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.topyougo.productimport.constant.SecurityConstants;
+
+//@Profile(value = {"dev", "prod"})
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -49,6 +52,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, SecurityConstants.LOGOUT_URL).permitAll()
 				.antMatchers(HttpMethod.GET, SecurityConstants.HEALTH_CHECK).permitAll()
 				.antMatchers(HttpMethod.GET, SecurityConstants.SHOPIFY_WEBHOOK).permitAll()
+				.antMatchers(SecurityConstants.AUTH_WHITELIST).permitAll()
 				.anyRequest()
 				.authenticated()
 				.and()
@@ -57,21 +61,21 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 				.and()
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		 http.logout().logoutUrl(SecurityConstants.LOGOUT_URL);
-
+		http.logout().logoutUrl(SecurityConstants.LOGOUT_URL);
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-		
 	}
 
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+		auth
+			.userDetailsService(userDetailsService)
+			.passwordEncoder(bCryptPasswordEncoder);
 	}
 
 	@Bean
 	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
+	public AuthenticationManager authenticationManager() throws Exception {
+		return super.authenticationManager();
 	}
 
 	@Bean

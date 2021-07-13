@@ -64,7 +64,7 @@ public class FileDownloadServiceImpl implements FileDownloadService {
 				row.createCell(2).setCellValue(convertStringToDate(order.getDateOrdered()));
 				row.createCell(3).setCellValue(order.getFirstName());
 				row.createCell(4).setCellValue(order.getLastName());
-				row.createCell(5).setCellValue(order.getOrderStatus());
+				row.createCell(5).setCellValue(order.getOrderStatus().getValue());
 				row.createCell(6).setCellValue(order.getCodAmount());
 				row.createCell(7).setCellValue(order.getContactNo());
 				row.createCell(8).setCellValue(order.getProduct());
@@ -74,7 +74,7 @@ public class FileDownloadServiceImpl implements FileDownloadService {
 				row.createCell(12).setCellValue(order.getOrderAmount());
 				row.createCell(13).setCellValue(order.getAddress());
 				row.createCell(14).setCellValue(convertStringToDate(order.getShippingDate()));
-				row.createCell(15).setCellValue(order.getCourier());
+				row.createCell(15).setCellValue(order.getCourier().getValue());
 				row.createCell(16).setCellValue(order.getCustomerNote());
 				row.createCell(17).setCellValue(order.getRtsReason());
 				row.createCell(18).setCellValue(order.getRtsDetails());
@@ -84,7 +84,7 @@ public class FileDownloadServiceImpl implements FileDownloadService {
 				row.createCell(22).setCellValue(order.getProvince());
 				row.createCell(23).setCellValue(order.getRegion());
 				row.createCell(24).setCellValue(order.getTrackingNumber());
-				row.createCell(25).setCellValue(order.getTrackingStatus());
+				row.createCell(25).setCellValue(order.getTrackingStatus().getValue());
 			}
 			workbook.write(out);
 			out.close();
