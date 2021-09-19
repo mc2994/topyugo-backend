@@ -1,8 +1,13 @@
 package com.topyougo.productimport.dto;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
+import com.topyougo.productimport.model.Role;
 
 public class UserDTO {
 
@@ -27,6 +32,8 @@ public class UserDTO {
 	
 	@NotEmpty(message = "This field is required")
 	private String status;
+	
+	private Set<Role> roles;
 	
 	public UserDTO() {
 		
@@ -77,5 +84,13 @@ public class UserDTO {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 }

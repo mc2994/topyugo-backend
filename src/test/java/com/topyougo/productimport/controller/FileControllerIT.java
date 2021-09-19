@@ -1,15 +1,13 @@
 package com.topyougo.productimport.controller;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.Mock;
 
 import com.topyougo.productimport.service.FileDownloadService;
 
-@WebMvcTest(value=FileDownloadController.class)
-class FileControllerUT {
+public class FileControllerIT extends BaseControllerTestConfig {
 
-	@MockBean
+	@Mock
 	private FileDownloadService fileDownloadService;
 	
 	@Test

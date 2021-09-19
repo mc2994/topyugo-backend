@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.topyougo.productimport.dto.ProductsDTO;
 import com.topyougo.productimport.service.OrderService;
-import com.topyougo.productimport.util.JsonUtil;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -42,15 +39,18 @@ public class OrderController {
 	@Autowired
 	private OrderService orderService;
 	
-	@Operation(summary = "Save Order", security = @SecurityRequirement(name = "bearerAuth"),
+	
+	@Operation(summary = "Save Order",
 		responses = {
 			@ApiResponse(responseCode = "201", description = "Order Created", 
 				content = { @Content(mediaType = "application/json",
 				schema = @Schema(implementation = ProductsDTO.class))}),
 			@ApiResponse(responseCode = "500", description = "Something went wrong")})
-	@PostMapping("/")
+	@PostMapping("/user")
 	public ResponseEntity<ProductsDTO> addOrder(@Valid @RequestBody ProductsDTO product) {
+		
 		orderService.saveOrder(product);
+		
 		return new ResponseEntity<ProductsDTO>(product, HttpStatus.CREATED);
 	}
 
@@ -65,10 +65,11 @@ public class OrderController {
 				@PathVariable(name = "orderID", required = true) Long orderID) {
 		
 		ProductsDTO productDto = orderService.findById(orderID);
+
 		return new ResponseEntity<ProductsDTO>(productDto, HttpStatus.OK);
 	}
 
-	@Operation(summary = "Update Order", security = @SecurityRequirement(name = "bearerAuth"),
+	@Operation(summary = "Update Order",
 		responses = {
 			@ApiResponse(responseCode = "200", description = "Order updated", 
 				content = { @Content(mediaType = "application/json",
@@ -81,7 +82,7 @@ public class OrderController {
 		return new ResponseEntity<ProductsDTO>(product, HttpStatus.OK);
 	}
 
-	@Operation(summary = "Fetch All Orders", security = @SecurityRequirement(name = "bearerAuth"), 
+	@Operation(summary = "Fetch All Orders", 
 		responses = {
 			@ApiResponse(description = "Successful Operation", responseCode = "200", 
 				content = @Content(mediaType = "application/json")),
@@ -89,6 +90,7 @@ public class OrderController {
 	@GetMapping("/fetchRecords")
 	public ResponseEntity<List<ProductsDTO>> fetchRecords() {
 		List<ProductsDTO> productsList = orderService.findAllByOrderByOrderIDDesc();
+		
 		return new ResponseEntity<List<ProductsDTO>>(productsList, HttpStatus.OK);
 	}
 
@@ -103,6 +105,7 @@ public class OrderController {
 								@PathVariable(value="userType",required = true) String userType) {
 		
 		List<ProductsDTO> productsList = orderService.fetchRecordsByUsertype(userType);
+		
 		return new ResponseEntity<List<ProductsDTO>>(productsList, HttpStatus.OK);
 	}
 

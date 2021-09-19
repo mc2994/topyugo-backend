@@ -1,23 +1,21 @@
 package com.topyougo.productimport.controller;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.Mock;
 import org.springframework.web.client.RestTemplate;
 
 import com.topyougo.productimport.repository.OrderRepository;
 import com.topyougo.productimport.repository.ShopifyStoreRepository;
 
-@WebMvcTest(ShopifyIntegrationController.class)
-class ShopifyIntegrationControllerIT {
+class ShopifyIntegrationControllerIT extends BaseControllerTestConfig {
 
-	@MockBean
+	@Mock
 	private OrderRepository orderRepository;
 	
-	@MockBean
+	@Mock
 	private ShopifyStoreRepository shopifyRepository;
 	
-	@MockBean
+	@Mock
 	private RestTemplate restTemplate;	
 	
 	@Test

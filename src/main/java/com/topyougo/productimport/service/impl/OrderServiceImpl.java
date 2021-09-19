@@ -6,15 +6,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
-
 import com.topyougo.productimport.constant.SqlQuery;
 import com.topyougo.productimport.dto.ProductsDTO;
 import com.topyougo.productimport.model.Orders;
@@ -31,8 +29,8 @@ public class OrderServiceImpl implements OrderService {
 	private OrderRepository orderRepository;
 	
 	@Autowired
-	private NamedParameterJdbcTemplate jdbcTemplate;
-
+	private NamedParameterJdbcTemplate jdbcTemplate; 
+	
 	@Override
 	public ProductsDTO findOrdersByOrderNoAndProduct(String orderNo, String product) {
 		Orders result = orderRepository.findOrdersByOrderNoAndProduct(orderNo, product);
@@ -56,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
 		List<Orders> productsList = orderRepository.findAllByOrderByOrderIDDesc();
 		
 		if(CollectionUtils.isEmpty(productsList)) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No record found");
+			throw new EntityNotFoundException("No records found");
 		}		
 				
 		return productsList.stream()
@@ -69,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
 		List<Orders> productsList = orderRepository.findOrdersByDateOrdered(orderDate);
 		
 		if(CollectionUtils.isEmpty(productsList)) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No record found");
+			throw new EntityNotFoundException("No records found");
 		}	 
 
 		return productsList.stream()
@@ -90,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
 		Optional<Orders> order = orderRepository.findById(orderID);
 		
 		if(order.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product with  id %s not found"+ orderID);
+			throw new EntityNotFoundException(String.format("Product with  id %s not found", orderID));
 		}
 		
 		return OrderEntityMapper.convertOrderToProduct(order.get());
@@ -141,5 +139,4 @@ public class OrderServiceImpl implements OrderService {
 		orderRepository.save(updateOrder);
 		return product;
 	}
-
 }

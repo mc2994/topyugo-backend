@@ -2,8 +2,10 @@ package com.topyougo.productimport.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.collections4.CollectionUtils;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import com.topyougo.productimport.constant.TrackingStatus;
 import com.topyougo.productimport.dto.DataResponse;
 import com.topyougo.productimport.dto.ResponseDetails;
 import com.topyougo.productimport.model.Orders;
+import com.topyougo.productimport.model.User;
 import com.topyougo.productimport.repository.OrderRepository;
 import com.topyougo.productimport.service.JntIntegrationService;
 
@@ -29,12 +32,36 @@ public class JNTScheduler {
 
 	@Autowired
 	private JntIntegrationService jntService;
+	
+	@Autowired
+	private SessionFactory sessionFactory;
 
-	@Scheduled(fixedRate = 20000)
+	//@Scheduled(fixedRate = 20000, initialDelay = 10000)
 	public void scheduleFixedDelayTask() {
 		List<Orders> orders = orderRepository.findAllByCourierOrderByIDDesc(Courier.JNT.getValue());
 		logger.info("Get orders count ", orders.size());
 
+		
+		Session session = null;
+        Transaction transaction = null;
+        List<User> users = null;
+       try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            users = session.createQuery("select u from User u", User.class).list();
+            users.stream().map(User::getFirstName).forEachOrdered(System.out::println);
+            transaction.commit();
+            System.out.println("SIZEEEEEEEEEE "+users.size());
+        } catch (Exception e) {
+        	logger.error("Exception occurred", e);
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            session.close();
+        }
+        
+		
 		List<DataResponse> jntListOrders = new ArrayList<DataResponse>();		
 		
 		for(Orders order : CollectionUtils.emptyIfNull(orders)) {

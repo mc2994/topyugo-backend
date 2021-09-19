@@ -22,6 +22,7 @@ import com.topyougo.productimport.constant.Courier;
 import com.topyougo.productimport.constant.OrderStatus;
 import com.topyougo.productimport.constant.TrackingStatus;
 import com.topyougo.productimport.dto.ProductsDTO;
+import com.topyougo.productimport.exception.FileFormatException;
 import com.topyougo.productimport.modelmapper.ShopifyOrderMapper;
 
 public class CSVHelper {
@@ -83,7 +84,7 @@ public class CSVHelper {
 			}
 			return productList;
 		} catch (IOException e) {
-			throw new RuntimeException("fail to parse CSV file: " + e.getMessage());
+			throw new FileFormatException("Failed to parse CSV file: " + e.getMessage());
 		}
 	}
 
@@ -103,7 +104,7 @@ public class CSVHelper {
 			csvPrinter.flush();
 			return new ByteArrayInputStream(out.toByteArray());
 		} catch (IOException e) {
-			throw new RuntimeException("fail to import data to CSV file: " + e.getMessage());
+			throw new RuntimeException("Failed to import data to CSV file: " + e.getMessage());
 		}
 	}
 
@@ -128,7 +129,7 @@ public class CSVHelper {
 			}
 			return productList;
 		} catch (IOException e) {
-			throw new RuntimeException("failed to parse CSV file: " + e.getMessage());
+			throw new FileFormatException("Failed to parse CSV file: " + e.getMessage());
 		}
 	}
 }

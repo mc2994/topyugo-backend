@@ -20,7 +20,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.topyougo.productimport.constant.SecurityConstants;
 
-//@Profile(value = {"dev", "prod"})
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -41,7 +40,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	protected void configure(HttpSecurity http) throws Exception {		
 		http.cors()
 			.and()
 			.csrf()
@@ -61,6 +60,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 				.and()
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		
 		http.logout().logoutUrl(SecurityConstants.LOGOUT_URL);
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
@@ -84,4 +84,5 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
 		return source;
 	}
+	
 }

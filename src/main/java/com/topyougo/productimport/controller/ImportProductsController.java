@@ -21,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.topyougo.productimport.constant.Courier;
 import com.topyougo.productimport.dto.ProductsDTO;
+import com.topyougo.productimport.exception.FileFormatException;
 import com.topyougo.productimport.model.Orders;
 import com.topyougo.productimport.modelmapper.OrderEntityMapper;
 import com.topyougo.productimport.repository.OrderRepository;
@@ -53,7 +54,7 @@ public class ImportProductsController {
 	public ResponseEntity<List<Orders>> importCSVFile(@RequestPart("file") MultipartFile file) {
 		
 		if(!CSVHelper.hasCSVFormat(file)){
-			throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "File format is not supported");
+			throw new FileFormatException("File format is not supported");
 		}
 		
 		List<Orders> ordersList = new ArrayList<Orders>();

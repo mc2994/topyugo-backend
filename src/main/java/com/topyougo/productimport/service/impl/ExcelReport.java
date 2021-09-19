@@ -1,11 +1,7 @@
 package com.topyougo.productimport.service.impl;
 
 import java.io.ByteArrayOutputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
@@ -17,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpHeaders;
 import com.topyougo.productimport.dto.ProductsDTO;
 import com.topyougo.productimport.service.Report;
+import com.topyougo.productimport.util.DateUtil;
 
 public class ExcelReport extends Report {
 
@@ -63,7 +60,7 @@ public class ExcelReport extends Report {
 				Row row = sheet.createRow(rowIdx++);
 				row.createCell(0).setCellValue(order.getOrderID());
 				row.createCell(1).setCellValue(order.getOrderNo());
-				row.createCell(2).setCellValue(convertStringToDate(order.getDateOrdered()));
+				row.createCell(2).setCellValue(DateUtil.fortmatDateToString(order.getDateOrdered()));
 				row.createCell(3).setCellValue(order.getFirstName());
 				row.createCell(4).setCellValue(order.getLastName());
 				row.createCell(5).setCellValue(order.getOrderStatus().getValue());
@@ -75,12 +72,12 @@ public class ExcelReport extends Report {
 				row.createCell(11).setCellValue(order.getQuantity());
 				row.createCell(12).setCellValue(order.getOrderAmount());
 				row.createCell(13).setCellValue(order.getAddress());
-				row.createCell(14).setCellValue(convertStringToDate(order.getShippingDate()));
+				row.createCell(14).setCellValue(DateUtil.fortmatDateToString(order.getShippingDate()));
 				row.createCell(15).setCellValue(order.getCourier().getValue());
 				row.createCell(16).setCellValue(order.getCustomerNote());
 				row.createCell(17).setCellValue(order.getRtsReason());
 				row.createCell(18).setCellValue(order.getRtsDetails());
-				row.createCell(19).setCellValue(convertStringToDate(order.getDateIntransit()));
+				row.createCell(19).setCellValue(DateUtil.fortmatDateToString(order.getDateIntransit()));
 				row.createCell(20).setCellValue(order.getDaysIntransit() != null ? order.getDaysIntransit() : 0);
 				row.createCell(21).setCellValue(order.getShippingFee() != null ? order.getShippingFee() : 0);
 				row.createCell(22).setCellValue(order.getProvince());
@@ -95,14 +92,6 @@ public class ExcelReport extends Report {
 			ex.printStackTrace();
 		}
 		// return out.toByteArray();
-	}
-
-	private String convertStringToDate(Date dateInput) {
-		DateFormat format = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
-		if (dateInput != null) {
-			return format.format(dateInput);
-		}
-		return "";
 	}
 
 	@Override
