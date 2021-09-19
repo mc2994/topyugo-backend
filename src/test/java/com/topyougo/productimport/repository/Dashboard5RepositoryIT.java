@@ -1,20 +1,21 @@
 package com.topyougo.productimport.repository;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.topyougo.productimport.model.Dashboard5;
 
-@DataJpaTest
-@ActiveProfiles("test")
-class Dashboard5RepositoryIT {
+
+class Dashboard5RepositoryIT extends BaseRepositoryTestConfig {
 
 	@Autowired
 	private Dashboard5Repository dashboard5Repository;
 	
+	@Disabled
 	@Test
 	//@Sql("/sql-template/topyugo-test.sql")
 	void testGetDashboard5() {

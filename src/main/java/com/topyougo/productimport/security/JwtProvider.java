@@ -21,25 +21,32 @@ public class JwtProvider {
 		UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
 
 		return Jwts.builder()
-				.setSubject((userPrincipal.getUsername()))
-				.setIssuedAt(new Date())
-				.setExpiration(new Date((new Date()).getTime() + jwtExpiration * 1000))
-				.signWith(SignatureAlgorithm.HS512, jwtSecret)
-				.compact();
+				   .setSubject((userPrincipal.getUsername()))
+				   .setIssuedAt(new Date())
+				   .setExpiration(new Date((new Date()).getTime() + jwtExpiration * 1000))
+				   .signWith(SignatureAlgorithm.HS512, jwtSecret)
+				   .compact();
 	}
 
 	public boolean validateJwtToken(String authToken) {
-		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken) != null ? true : false;
+		return Jwts.parser()
+				   .setSigningKey(jwtSecret)
+				   .parseClaimsJws(authToken) != null ? true : false;
 	}
 
 	public String getUserNameFromJwtToken(String token) {
-		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+		return Jwts.parser()
+				   .setSigningKey(jwtSecret)
+				   .parseClaimsJws(token)
+				   .getBody()
+				   .getSubject();
 	}
 	
 	public String invalidateToken(String authToken) {
 		return Jwts.parser()
-			.setSigningKey(jwtSecret)
-		   .parseClaimsJws(authToken)
-		   .getBody().getSubject();
+				   .setSigningKey(jwtSecret)
+				   .parseClaimsJws(authToken)
+				   .getBody()
+				   .getSubject();
 	}
 }

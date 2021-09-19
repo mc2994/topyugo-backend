@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="mc2994 (generated)" id="1631712462671-1">
+        <createTable tableName="jntaccounts">
+            <column name="UserId" type="INT"/>
+            <column name="UserName" type="VARCHAR(100)"/>
+            <column name="Password" type="VARCHAR(100)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="mc2994 (generated)" id="1631712462671-2">
+        <createTable tableName="orders">
+            <column autoIncrement="true" name="ID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DateOrdered" type="date"/>
+            <column name="FirstName" type="VARCHAR(100)"/>
+            <column name="LastName" type="VARCHAR(100)"/>
+            <column name="OrderNo" type="VARCHAR(100)"/>
+            <column name="OrderStatus" type="ENUM('NO_STOCK', 'PAID', 'ON_HOLD', 'RESHIPPED', 'RRTS', 'CANCELLED', 'SCHEDULED', 'SHIPPED', 'DELIVERED', 'RTS', 'FOR_PACKING', 'PAID_LOST', 'UNTRACEABLE', 'ODZ', 'INVALID_NO', 'INVALID_AMOUNT', 'INVALID_ADDRESS', 'NEW_ORDER', 'LOST_PARCEL', 'NOT_MOVING')"/>
+            <column name="CodAmount" type="DOUBLE(10, 2)"/>
+            <column name="ContactNo" type="VARCHAR(100)"/>
+            <column name="Product" type="VARCHAR(300)"/>
+            <column name="Variant" type="VARCHAR(100)"/>
+            <column name="Amount" type="DOUBLE"/>
+            <column name="Quantity" type="INT"/>
+            <column name="OrderAmount" type="INT"/>
+            <column name="Address" type="VARCHAR(300)"/>
+            <column name="ShippingDate" type="date"/>
+            <column name="Courier" type="ENUM('JNT', 'JRS', 'LBC')"/>
+            <column name="CustomerNote" type="VARCHAR(500)"/>
+            <column name="ShippingDate2" type="date"/>
+            <column name="RTSReason" type="VARCHAR(300)"/>
+            <column name="RTSDetails" type="VARCHAR(300)"/>
+            <column name="DateInTransit" type="date"/>
+            <column name="DaysIntransit" type="INT"/>
+            <column name="ShippingFee" type="DOUBLE"/>
+            <column name="Province" type="VARCHAR(100)"/>
+            <column name="Region" type="VARCHAR(100)"/>
+            <column name="TrackingNumber" type="VARCHAR(100)"/>
+            <column name="TrackingStatus" type="ENUM('RRTS', 'NO_STATUS', 'RETURN_TO_SENDER', 'SHIPPED', 'DELIVERED')"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="mc2994 (generated)" id="1631712462671-3">
+        <createTable tableName="roles">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(60)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="mc2994 (generated)" id="1631712462671-4">
+        <createTable tableName="shopify_stores">
+            <column autoIncrement="true" name="Id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="StoreName" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ApiKey" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Password" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DomainName" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="mc2994 (generated)" id="1631712462671-5">
+        <createTable tableName="user_roles">
+            <column name="user_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="mc2994 (generated)" id="1631712462671-6">
+        <createTable tableName="users">
+            <column autoIncrement="true" name="Id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UserName" type="VARCHAR(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Password" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Email" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FirstName" type="VARCHAR(200)"/>
+            <column name="LastName" type="VARCHAR(200)"/>
+            <column name="UserType" type="ENUM('FINANCE', 'LOGISTICS', 'WAREHOUSE', 'ADMIN')"/>
+            <column name="Status" type="ENUM('IN_ACTIVE', 'ACTIVE')"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="mc2994 (generated)" id="1631712462671-7">
+        <addPrimaryKey columnNames="user_id, role_id" constraintName="PRIMARY" tableName="user_roles"/>
+    </changeSet>
+    <changeSet author="mc2994 (generated)" id="1631712462671-8">
+        <addPrimaryKey columnNames="UserName" constraintName="PRIMARY" tableName="users"/>
+    </changeSet>
+    <changeSet author="mc2994 (generated)" id="1631712462671-9">
+        <addUniqueConstraint columnNames="name" constraintName="UK_nb4h0p6txrmfc0xbrd1kglp9t" tableName="roles"/>
+    </changeSet>
+    <changeSet author="mc2994 (generated)" id="1631712462671-10">
+        <createIndex indexName="FK_Userid" tableName="jntaccounts">
+            <column name="UserId"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="mc2994 (generated)" id="1631712462671-11">
+        <createIndex indexName="Id" tableName="users">
+            <column name="Id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="mc2994 (generated)" id="1631712462671-12">
+        <createIndex indexName="OrderID" tableName="orders">
+            <column name="ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="mc2994 (generated)" id="1631712462671-13">
+        <createIndex indexName="role_id" tableName="user_roles">
+            <column name="role_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="mc2994 (generated)" id="1631712462671-14">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="user_roles" constraintName="role_id" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="roles"/>
+    </changeSet>
+    <changeSet author="mc2994 (generated)" id="1631712462671-15">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_roles" constraintName="user_id" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="RESTRICT" referencedColumnNames="Id" referencedTableName="users"/>
+    </changeSet>
+</databaseChangeLog>

@@ -3,21 +3,22 @@ package com.topyougo.productimport.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import com.topyougo.productimport.model.Role;
 import com.topyougo.productimport.model.RoleName;
 
-@DataJpaTest
-@ActiveProfiles("test")
-class RoleRepositoryIT {
+
+class RoleRepositoryIT extends BaseRepositoryTestConfig{
 
 	@Autowired
 	private RoleRepository roleRepository;
 	
+	@Disabled
 	@Test
 	void testFindByName() {
 		Role role = new Role();
