@@ -13,8 +13,7 @@
 	<artifactId>product-import</artifactId>
 	<version>1.0.0</version>
 	<name>product-import</name>
-	<description>TopYuGo TDI Application to consolidate orders from
-		multiple e-Commerce merchant
+	<description>TopYuGo TDI Application to consolidate orders from multiple e-Commerce merchant
 	</description>
 	<packaging>jar</packaging>
 
@@ -182,9 +181,17 @@
 					<consoleOutput>true</consoleOutput>
 					<failsOnError>true</failsOnError>
 					<linkXRef>false</linkXRef>
+					<excludes>**/package-info.java</excludes>
 				</configuration>
-				<!-- <executions> <execution> <id>validate</id> <phase>validate</phase> 
-					<goals> <goal>check</goal> </goals> </execution> </executions> -->
+				<executions>
+					<execution>
+						<id>validate</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -284,22 +291,22 @@
 				</configuration>
 			</plugin>
 			<plugin>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-maven-plugin</artifactId>
-                <version>3.4.1</version>
-                <configuration>
-                    <propertyFile>src/main/resources/application.properties</propertyFile>
-                </configuration>
-                <executions>
-                	<execution>
-                		<id>liquibase-update</id>
-                		<phase></phase>
-                		<goals>
-                			<goal>generateChangeLog</goal>
-                		</goals>
-                	</execution>
-                </executions>
-            </plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>3.4.1</version>
+				<configuration>
+					<propertyFile>src/main/resources/application.properties</propertyFile>
+				</configuration>
+				<executions>
+					<execution>
+						<id>liquibase-update</id>
+						<phase></phase>
+						<goals>
+							<goal>generateChangeLog</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 		<finalName>${project.artifactId}</finalName>
 	</build>
