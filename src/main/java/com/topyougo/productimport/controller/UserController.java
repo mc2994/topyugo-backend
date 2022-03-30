@@ -81,9 +81,11 @@ public class UserController {
 		UserPrinciple userDetails = (UserPrinciple) authentication.getPrincipal();
 		
 		List<String> roles = userDetails
-								.getAuthorities()
-								.stream().map(item -> item.getAuthority())
-								.collect(Collectors.toList());
+						.getAuthorities()
+						.stream()
+						    .map(item -> 
+						    	   item.getAuthority())
+						.collect(Collectors.toList());
 
 		return ResponseEntity.ok(new JwtResponse(jwt, 
 					userDetails.getId(), 

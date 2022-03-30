@@ -15,5 +15,4 @@ public interface Dashboard5Repository extends JpaRepository<Dashboard5, String> 
 	//@Procedure(procedureName = "DASHBOARD5" )
 	@Query(value = "CALL DASHBOARD5(:monthOrder, :yearOrder)", nativeQuery = true)
 	public List<Dashboard5> getDashboard5(@Param("monthOrder") String month, @Param("yearOrder") String year);
-
 }

@@ -11,15 +11,15 @@ import com.topyougo.productimport.service.ApplicationUserRepository;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-	@Autowired
-	private ApplicationUserRepository applicationUserRepository;
+    @Autowired
+    private ApplicationUserRepository applicationUserRepository;
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User applicationUser = applicationUserRepository.findByUsername(username);
-		if (applicationUser == null) {
-			throw new UsernameNotFoundException(username);
-		}
-		return UserPrinciple.build(applicationUser);
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	User applicationUser = applicationUserRepository.findByUsername(username);
+	if (applicationUser == null) {
+	    throw new UsernameNotFoundException(username);
 	}
+	return UserPrinciple.build(applicationUser);
+    }
 }

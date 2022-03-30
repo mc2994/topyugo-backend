@@ -11,109 +11,109 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.topyougo.productimport.model.User;
 
 public class UserPrinciple implements UserDetails {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private Integer id;
+    private Integer id;
 
-	private String firstName;
-	
-	private String lastName;
+    private String firstName;
 
-	private String username;
+    private String lastName;
 
-	private String email;
+    private String username;
 
-	@JsonIgnore
-	private String password;
+    private String email;
 
-	private Collection<? extends GrantedAuthority> authorities;
+    @JsonIgnore
+    private String password;
 
-	public UserPrinciple(Integer id, String firstName, String lastName, String username, String email, String password,
-			Collection<? extends GrantedAuthority> authorities) {
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.username = username;
-		this.email = email;
-		this.password = password;
-		this.authorities = authorities;
-	}
+    private Collection<? extends GrantedAuthority> authorities;
 
-	public static UserPrinciple build(User user) {
-		List<GrantedAuthority> authorities = user.getRoles().stream()
-				.map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
+    public UserPrinciple(Integer id, String firstName, String lastName, String username, String email, String password,
+	    Collection<? extends GrantedAuthority> authorities) {
+	this.id = id;
+	this.firstName = firstName;
+	this.lastName = lastName;
+	this.username = username;
+	this.email = email;
+	this.password = password;
+	this.authorities = authorities;
+    }
 
-		return new UserPrinciple(user.getId(), user.getFirstName(), user.getLastName(), user.getUsername(), user.getEmail(),
-				user.getPassword(), authorities);
-	}
+    public static UserPrinciple build(User user) {
+	List<GrantedAuthority> authorities = user.getRoles().stream()
+		.map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
 
-	public Integer getId() {
-		return id;
-	}
+	return new UserPrinciple(user.getId(), user.getFirstName(), user.getLastName(), user.getUsername(),
+		user.getEmail(), user.getPassword(), authorities);
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public Integer getId() {
+	return id;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public String getFirstName() {
+	return firstName;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public void setFirstName(String firstName) {
+	this.firstName = firstName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public String getLastName() {
+	return lastName;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setLastName(String lastName) {
+	this.lastName = lastName;
+    }
 
-	@Override
-	public String getUsername() {
-		return username;
-	}
+    public String getEmail() {
+	return email;
+    }
 
-	@Override
-	public String getPassword() {
-		return password;
-	}
+    @Override
+    public String getUsername() {
+	return username;
+    }
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return authorities;
-	}
+    @Override
+    public String getPassword() {
+	return password;
+    }
 
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+	return authorities;
+    }
 
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
+    @Override
+    public boolean isAccountNonExpired() {
+	return true;
+    }
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
+    @Override
+    public boolean isAccountNonLocked() {
+	return true;
+    }
 
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
+    @Override
+    public boolean isCredentialsNonExpired() {
+	return true;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
+    @Override
+    public boolean isEnabled() {
+	return true;
+    }
 
-		UserPrinciple user = (UserPrinciple) o;
-		return Objects.equals(id, user.id);
-	}
+    @Override
+    public boolean equals(Object o) {
+	if (this == o)
+	    return true;
+	if (o == null || getClass() != o.getClass())
+	    return false;
+
+	UserPrinciple user = (UserPrinciple) o;
+	return Objects.equals(id, user.id);
+    }
 }

@@ -19,6 +19,6 @@ public class HomeController {
 		      @ApiResponse(responseCode = "404", description = "Not found")})
 	@GetMapping("/")
 	public ResponseEntity<String> healthCheck() {
-		return new ResponseEntity<String>(HttpStatus.OK);
+		return new ResponseEntity<String>("dasdasadad",HttpStatus.OK);
 	}
 }

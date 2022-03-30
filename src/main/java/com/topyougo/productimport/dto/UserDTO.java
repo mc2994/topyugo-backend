@@ -1,6 +1,5 @@
 package com.topyougo.productimport.dto;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.constraints.Email;

@@ -6,5 +6,6 @@ import com.topyougo.productimport.model.ShopifyStores;
 
 @Repository
 public interface ShopifyStoreRepository extends JpaRepository<ShopifyStores, Long>{
+    
 	ShopifyStores findShopifyStoresByStoreName(String storeName);
 }
