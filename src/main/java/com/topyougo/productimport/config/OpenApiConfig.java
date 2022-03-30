@@ -32,7 +32,7 @@ public class OpenApiConfig {
     	   .addSecurityItem(new SecurityRequirement()
     			   .addList("bearerAuth", 
     					   Arrays.asList("read", "write")))
-    	   .addServersItem(new Server().url("http://localhost:8080").description("Local Environment URL"))
+    	   .addServersItem(new Server().url("http://localhost:5000").description("Local Environment URL"))
     	   .addServersItem(new Server().url("http://www.mytdi.vip/test").description("Test Environment URL"))
     	   .addServersItem(new Server().url("http://www.mytdi.vip/production").description("Production Environment URL"))    	
            .info(new Info()
