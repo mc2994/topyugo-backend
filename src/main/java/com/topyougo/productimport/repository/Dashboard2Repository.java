@@ -12,5 +12,4 @@ public interface Dashboard2Repository extends JpaRepository<Dashboard2, Integer>
 	
 	@Query(value = "CALL dashboard2(:monthOrder, :yearOrder)", nativeQuery = true)
 	public Dashboard2 getDashboard2(@Param("monthOrder") String month, @Param("yearOrder") String year);
-
 }

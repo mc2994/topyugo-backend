@@ -10,5 +10,7 @@ public final class SecurityConstants {
     public static final String LOGOUT_URL = "/api/logout";
     public static final String HEALTH_CHECK = "/";
     public static final String SHOPIFY_WEBHOOK = "/api/store/shopifyWebhook";
-	public static final String[] AUTH_WHITELIST = {"/v3/api-docs/**","/v3/api-docs.yaml","/swagger-ui/**","/swagger-ui.html"}; // -- Swagger UI v3 (OpenAPI)
+    public static final String[] AUTH_WHITELIST = {"/v3/api-docs.yaml","/swagger-ui/**","/swagger-ui.html"}; // -- Swagger UI v3 (OpenAPI)
+	
+	//"/v3/api-docs/**", -- remove to generate openapi yaml file during integration test
 }

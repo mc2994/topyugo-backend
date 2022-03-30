@@ -17,45 +17,44 @@ import com.topyougo.productimport.service.impl.UserDetailsServiceImpl;
 
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
-	@Autowired
-	private JwtProvider tokenProvider;
+    @Autowired
+    private JwtProvider tokenProvider;
 
-	@Autowired
-	private UserDetailsServiceImpl userDetailsService;
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
 
-	private static final Logger logger = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
-		try {
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+	    throws ServletException, IOException {
+	try {
+	    String jwt = getJwt(request);
+	    if (jwt != null && tokenProvider.validateJwtToken(jwt)) {
+		String username = tokenProvider.getUserNameFromJwtToken(jwt);
 
-			String jwt = getJwt(request);
-			if (jwt != null && tokenProvider.validateJwtToken(jwt)) {
-				String username = tokenProvider.getUserNameFromJwtToken(jwt);
+		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+			userDetails, null, userDetails.getAuthorities());
 
-				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-						userDetails, null, userDetails.getAuthorities());
-
-				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-				SecurityContextHolder.getContext().setAuthentication(authentication);
-			}
-		} catch (Exception e) {
-			logger.error("Can NOT set user authentication -> Message: {}", e);
-		}
-
-		filterChain.doFilter(request, response);
+		authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+	    }
+	} catch (Exception e) {
+	    logger.error("Can NOT set user authentication -> Message: {}", e);
 	}
 
-	private String getJwt(HttpServletRequest request) {
-		String authHeader = request.getHeader("Authorization");
+	filterChain.doFilter(request, response);
+    }
 
-		if (authHeader != null && authHeader.startsWith("Bearer ")) {
-			return authHeader.replace("Bearer ", "");
-		}
+    private String getJwt(HttpServletRequest request) {
+	String authHeader = request.getHeader("Authorization");
 
-		return null;
+	if (authHeader != null && authHeader.startsWith("Bearer ")) {
+	    return authHeader.replace("Bearer ", "");
 	}
+
+	return null;
+    }
 }

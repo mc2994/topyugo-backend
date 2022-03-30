@@ -5,12 +5,10 @@ import com.google.gson.GsonBuilder;
 
 public class JsonUtil {
 
-	private JsonUtil() {
-		
-	}
-	
-	public static String toJson(Object obj) {
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		return gson.toJson(obj);
-	}
+    private JsonUtil() {}
+
+    public static String toJson(Object obj) {
+	Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	return gson.toJson(obj);
+    }
 }

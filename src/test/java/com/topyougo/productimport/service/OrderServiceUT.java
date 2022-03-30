@@ -21,9 +21,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.topyougo.productimport.dto.ProductsDTO;
 import com.topyougo.productimport.model.Orders;
 import com.topyougo.productimport.modelmapper.OrderEntityMapper;

@@ -10,28 +10,28 @@ import com.topyougo.productimport.model.Orders;
 
 public interface OrderService {
 
-	ProductsDTO findOrdersByOrderNoAndProduct(String orderNo, String product);
-	
-	ProductsDTO findOrdersByOrderNo(String orderNo);
-	
-	ProductsDTO findOrdersByTrackingNumber(String orderNo);
-	
-	List<ProductsDTO> findAllByOrderByOrderIDDesc();
-	
-	List<ProductsDTO> findOrdersByDateOrdered(Date orderDate);
-	
-	ProductsDTO saveOrder(ProductsDTO order);
-	
-	ProductsDTO updateOrder(ProductsDTO product);
-	
-	ProductsDTO findById(Long orderID);
-	
-	List<ProductsDTO> findOrdersByOrderDate(Map<String, Object> requestFilter, String userType);
-	
-	List<ProductsDTO> fetchRecordsByUsertype(String userType);
-	
-	/*
-	 * @Query(nativeQuery=true, value=SqlQuery.FIND_ALL_COURIER) List<Orders>
-	 * findAllByCourierOrderByIDDesc(@Param("courier") String courier);
-	 */
+    ProductsDTO findOrdersByOrderNoAndProduct(String orderNo, String product);
+
+    ProductsDTO findOrdersByOrderNo(String orderNo);
+
+    ProductsDTO findOrdersByTrackingNumber(String orderNo);
+
+    List<ProductsDTO> findAllByOrderByOrderIDDesc();
+
+    List<ProductsDTO> findOrdersByDateOrdered(Date orderDate);
+
+    ProductsDTO saveOrder(ProductsDTO order);
+
+    ProductsDTO updateOrder(ProductsDTO product);
+
+    ProductsDTO findById(Long orderID);
+
+    List<ProductsDTO> findOrdersByOrderDate(Map<String, Object> requestFilter, String userType);
+
+    List<ProductsDTO> fetchRecordsByUsertype(String userType);
+
+    /*
+     * @Query(nativeQuery=true, value=SqlQuery.FIND_ALL_COURIER) List<Orders>
+     * findAllByCourierOrderByIDDesc(@Param("courier") String courier);
+     */
 }

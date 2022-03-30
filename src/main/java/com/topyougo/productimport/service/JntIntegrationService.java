@@ -2,6 +2,8 @@ package com.topyougo.productimport.service;
 
 import com.topyougo.productimport.dto.DataResponse;
 
+@FunctionalInterface
 public interface JntIntegrationService {
-	public DataResponse fetchTrackingInfo(String orderNo);
+
+    abstract DataResponse fetchTrackingInfo(String orderNo);
 }

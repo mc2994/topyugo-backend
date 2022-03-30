@@ -3,6 +3,8 @@ package com.topyougo.productimport.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -33,6 +35,7 @@ import com.topyougo.productimport.repository.UserRolesRepository;
 import com.topyougo.productimport.security.JwtProvider;
 import com.topyougo.productimport.security.JwtResponse;
 import com.topyougo.productimport.service.impl.UserPrinciple;
+import com.topyougo.productimport.util.JsonUtil;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -42,7 +45,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "User", description = "User authentication and Registration")
-//@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -69,6 +71,7 @@ public class UserController {
 	        @ApiResponse(description = "Bad Request", responseCode = "400")})
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody UserDTO user) {
+		System.out.println("Username "+user.getUsername());
 		Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
@@ -78,9 +81,11 @@ public class UserController {
 		UserPrinciple userDetails = (UserPrinciple) authentication.getPrincipal();
 		
 		List<String> roles = userDetails
-								.getAuthorities()
-								.stream().map(item -> item.getAuthority())
-								.collect(Collectors.toList());
+						.getAuthorities()
+						.stream()
+						    .map(item -> 
+						    	   item.getAuthority())
+						.collect(Collectors.toList());
 
 		return ResponseEntity.ok(new JwtResponse(jwt, 
 					userDetails.getId(), 
@@ -91,7 +96,7 @@ public class UserController {
 					roles));
 	}
 
-	@Operation(summary = "User Registration", security = @SecurityRequirement(name = "bearerAuth"),
+	@Operation(summary = "User Registration",
 		responses = {
 			@ApiResponse(description = "User successfully registered", responseCode = "200", 
 				content = {@Content(mediaType = "application/json",
@@ -99,11 +104,14 @@ public class UserController {
 	        @ApiResponse(description = "Username and Email Already Exist", responseCode = "400")})
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@PostMapping("/register")
-	public ResponseEntity<?> register(@Valid @RequestBody UserDTO user) {
+	public ResponseEntity<?> register(@RequestBody UserDTO user) {
+		System.out.println("............ "+JsonUtil.toJson(UserEntityMapper.mapDTOToModel(user)));
 		User userResponse = userService.findByUsernameAndEmail(user.getUsername(), user.getEmail());
 		if (userResponse != null) {
-			return new ResponseEntity<String>("Username and Email Already Exist", HttpStatus.BAD_REQUEST);
+			throw new EntityExistsException("Username and Email Already Exist");
 		}
+		
+		
 		User result = userService.save(UserEntityMapper.mapDTOToModel(user));
 
 		UserRoles roles = new UserRoles();
@@ -125,7 +133,7 @@ public class UserController {
 	public ResponseEntity<?> updateUser(@Valid @RequestBody UserDTO user) {
 		User userResponse = userService.findByUsernameAndEmail(user.getUsername(), user.getEmail());
 		if (userResponse == null) {
-			return new ResponseEntity<String>("Username and Email Not Found", HttpStatus.NOT_FOUND);
+			throw new EntityNotFoundException("Username and Email Not Found");
 		}
 		userResponse.setFirstName(user.getFirstName());
 		userResponse.setLastName(user.getLastName());

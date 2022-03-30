@@ -14,22 +14,22 @@ import com.topyougo.productimport.service.DashboardService;
 @Service
 public class DashboardServiceImpl implements DashboardService {
 
-	@Autowired
-	private DashboardRepository dashboardService;
+    @Autowired
+    private DashboardRepository dashboardService;
 
-	@Autowired
-	private Dashboard2Repository dashboard2Service;
+    @Autowired
+    private Dashboard2Repository dashboard2Service;
 
-	@Override
-	public Dashboard1DTO getDashboardService(String month, String year) {
-		Dashboard1 result = dashboardService.getDashboard1(month, year);
-		return Dashboard1EntityMapper.convertModelToDTO(result);
-	}
+    @Override
+    public Dashboard1DTO getDashboardService(String month, String year) {
+	Dashboard1 result = dashboardService.getDashboard1(month, year);
+	return Dashboard1EntityMapper.convertModelToDTO(result);
+    }
 
-	@Override
-	public Dashboard2DTO getDashboard2Service(String month, String year) {
-		Dashboard2 result = dashboard2Service.getDashboard2(month, year);
-		return Dashboard1EntityMapper.convertModelToDTO(result);
-	}
+    @Override
+    public Dashboard2DTO getDashboard2Service(String month, String year) {
+	Dashboard2 result = dashboard2Service.getDashboard2(month, year);
+	return Dashboard1EntityMapper.convertModelToDTO(result);
+    }
 
 }
